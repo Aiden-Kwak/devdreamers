@@ -1,0 +1,107 @@
+.tag-autocomplete-element {
+	width: 100%;
+	border: 1px solid #ced4da;
+	border-radius: .25rem;
+	background-color: transparent;
+	display: inline-block;
+	text-decoration: none;
+}
+.tags-container {
+    padding: 0;
+    margin-top: .3rem;
+    display: flex;
+    flex-wrap: wrap;
+}
+.tag-item {
+    margin: .3rem .3rem 0 .3rem;
+    padding: 0.3rem;
+    font-size: 1rem;
+    color: black;
+    background-color: #C4C4C4;
+    border-radius: 5px;
+}
+.stack-tags > ul > .tag-item {
+    margin: 0.3rem .3rem 0 .3rem;
+    padding: 0.3rem;
+    font-size: 1rem;
+    color: white;
+    background-color: #F07489;
+    border-radius: 5px;
+}
+
+.tag-item-remove {
+    margin: 0.5rem 0.2rem 0.5rem 0.5rem;
+    color: inherit;
+    cursor: pointer;
+}
+.tag-input {
+	width: 100%;
+	border-radius: .25rem;
+	font-size: 1rem;
+	border: 0;
+	outline: none;
+    background-color: transparent;
+	padding: .5rem;
+}
+.autocomplete-options {
+	margin: 0;
+	padding: 0;
+	border-width: .9px;
+	border-style: solid;
+	border-color: #ced4da;
+	border-radius: .25rem;
+	position: absolute;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	z-index: 101;
+	background-color: #fff;
+	overflow: auto;
+	max-height: 250px;
+	list-style: none;
+	left: -1px;
+	right: -1px;
+	top: 44px;
+}
+.autocomplete-options::-webkit-scrollbar {
+  width: 6px;
+}
+.autocomplete-options::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+.autocomplete-options::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background-color: gray;
+}
+.autocomplete-options::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+}
+.tag-autocomplete-element.options-hidden .autocomplete-options {
+	display: none;
+}
+.autocomplete-option {
+	padding: .5rem;
+	cursor: pointer;
+	color: #000;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -ms-word-break: break-all;
+    word-break: break-word;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+}
+.autocomplete-option.active {
+	background-color: #39f;
+	color: #fff;
+}
+.tag-autocomplete-element:hover {
+    border: 1px solid #F07489;
+}
+.tag-autocomplete-element:focus-within {
+    border: 1px solid #F07489;
+}
+.tag-item-remove:hover {
+    color:inherit;
+}

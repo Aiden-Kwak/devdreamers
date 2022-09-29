@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/teamapp/detail.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="box" style="position: absolute;
+top: 10px; width: 100%; height: 800px; background: {{ target_team.team_color }}; z-index: -10;">
+</div>
+
+<div class="position-fixed d-block w-100 next_page" style="top: 50%; z-index: 2; transform: translateY(-50%);">
+    <a href="/teams/{{the_prev}}">
+        <p class="float-start arrow-left"><i class="fas fa-chevron-left"></i></p>
+    </a>
+    <a href="/teams/{{the_next}}">
+        <p class="float-end arrow-right"><i class="fas fa-chevron-right"></i></p>
+    </a>
+</div>
+
+<div class="container p-5 shadow my-5" style="margin-top: 150px; background:white;">
+      {% if target_team.writer == user %}
+          <p class="text-end mb-3" style="font-size:1rem;">
+
+              {% if target_team.visible %}
+              <a href="{% url 'team:update' pk=target_team.pk %}">수정</a>
+              <span class="mx-2">|</span>
+              {% endif %}
+              <a href="#" data-bs-toggle="modal" data-bs-target="#delete">삭제</a>
+          </p>
+          <div class="modal fade p-3" id="delete" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-body text-center">
+                    <p><strong>삭제하면 되돌릴 수 없습니다.</strong></p>
+                    <p>정말 게시글을 삭제하시겠습니까?</p>
+                </div>
+                <div class="d-flex align-items-center justify-content-center mb-3">
+                  <button type="button" class="shadow-none btn btn-secondary me-3" data-bs-dismiss="modal">취소하기</button>
+                  <form action="{% url 'team:delete' pk=target_team.pk %}" method="post">
+                      {% csrf_token %}
+                      <button class="shadow-none btn btn-danger">삭제하기</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+      {% endif %}
+
+    <h1 class="text-center mb-3">
+        {{ target_team.title }}
+    </h1>
+    <p class="text-center mb-3" style="color: #737373;">
+        {{ target_team.description }}
+    </p>
+    <p class="d-flex justify-content-end align-items-center mb-2">
+        {% if subscription %}
+            <span class="subscribe-team mb-0"><i class="fas fa-star" style="font-size:1.5rem; color:#F07489;"></i></span>
+        {% else %}
+            <span class="subscribe-team mb-0"><i class="far fa-star" style="font-size:1.5rem; color:#F07489;"></i></span>
+        {% endif %}
+        <span class="mx-3"></span>
+        <a href="{% url 'team:comment' pk=target_team.pk %}" class="p-2 text-secondary" style="border: 1px solid #C4C4C4; border-radius: 10px">
+            <i class="far fa-comments me-3"></i>
+            <small>{{target_team.comment.count}}</small>
+        </a>
+    </p>
+    <p class="text-end mt-3 text-secondary" style="font-size: 1rem;">
+        수정 : {{ target_team.updated_at | date:"Y년 m월 d일 H시 i분" }}
+    </p>
+    <p class="text-end mb-3 text-secondary" style="font-size: 1rem;">
+        등록 : {{ target_team.created_at | date:"Y년 m월 d일 H시 i분" }}
+    </p>
+    <p class="text-center my-3">
+        작성자 정보
+    </p>
+    <!--프로필-->
+    <a href="{% url 'account:detail' slug=target_team.writer.profile.nickname %}">
+        <div class="team-owner-profile mx-auto d-flex align-items-center">
+            <div class="d-flex w-100 align-items-center justify-content-evenly">
+                <div class="shadow" style="border-radius: 1rem;  background-size:cover;
+                background-image: url({{ target_team.writer.profile.image.url }}); width: 95px; height: 95px;"></div>
+                <div>
+                    <strong style="font-size: 1rem;">{{ target_team.writer.profile.nickname }}</strong>
+                    <p style="color: gray; font-size: .9rem;">프로필 바로가기</p>
+                </div>
+            </div>
+        </div>
+    </a>
+
+    <!--요약상자-->
+    <h5 class="text-center">요약 정보</h5>
+
+    <div class="d-flex text-center justify-content-center" id="box-mother">
+        <div id="box1" class="shadow border mb-4">
+            <p class="mt-4"><i class="fas fa-user-friends"></i> 팀 유형</p>
+            <div class="h-100 d-flex flex-column justify-content-center">
+                <!-- 스터디 -->
+                {% if target_team.type == "0" %}
+                <p><i class="fas fa-pencil-alt" style="font-size: 2.5rem;"></i></p>
+                <!-- 프로젝트 -->
+                {% elif target_team.type == "1" %}
+                <p><i class="fas fa-code-branch" style="font-size: 2.5rem;"></i></p>
+                <!-- 대회 -->
+                {% elif target_team.type == "2" %}
+                <p><i class="fas fa-award" style="font-size: 2.5rem;"></i></p>
+                <!-- 동아리 -->
+                {% elif target_team.type == "3" %}
+                <p><i class="fas fa-users" style="font-size: 2.5rem;"></i></p>
+                <!-- 스타트업 -->
+                {% else %}
+                <p><i class="fas fa-rocket" style="font-size: 2.5rem;"></i></p>
+                {% endif %}
+                <p class="mt-1">{{ target_team.get_type_display }}</p>
+
+            </div>
+        </div>
+        <div id="box2" class="shadow border mb-4">
+            <p class="mt-4 mb-2"><i class="fas fa-cog"></i> 모집분야</p>
+            <div class="h-100 d-flex flex-column justify-content-center">
+                {% for value in target_team.category %}
+                <p class="px-1 pt-1 mb-1 mx-auto" style="background:#dddddd; color:black; border-radius: .5rem;">{{ value }}</p>
+                {% endfor %}
+            </div>
+        </div>
+        <div id="box3" class="shadow border mb-4">
+            <p class="mt-4"><i class="far fa-comment-dots"></i> 연락처</p>
+            <div class="h-100 d-flex flex-column justify-content-center">
+                {{ target_team.contact|urlizetrunc:40 }}
+            </div>
+        </div>
+        <div id="box4" class="shadow border mb-4">
+            <p class="mt-4"><i class="far fa-clock"></i> 마감일</p>
+            <div class="h-100 d-flex flex-column justify-content-center">
+                <p>{{ target_team.deadline | date:"Y-m-d H:i" }}</p>
+            </div>
+        </div>
+    </div>
+
+    <h4 class="text-center my-4">팀 설명</h4>
+    <div class="summernote-content">{{ target_team.content | safe }}</div>
+
+    {% if target_team.writer == request.user and target_team.visible %}
+        <button class="w-100 shadow py-2 border-0 mt-3"  data-bs-toggle="modal" data-bs-target="#close"
+                style="background-color:#F07489; color:white;" >마감하기</button>
+         <div class="modal fade p-3" id="close" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-body text-center">
+                    <p><strong>마감하면 더 이상 수정이 불가능합니다</strong></p>
+                    <p>정말 팀 모집을 마감하시겠습니까?</p>
+                </div>
+                <div class="d-flex align-items-center justify-content-center mb-3">
+                  <button type="button" class="shadow-none btn btn-secondary me-3" data-bs-dismiss="modal">취소하기</button>
+                  <form action="{% url 'team:close' pk=target_team.pk %}" method="post">
+                      {% csrf_token %}
+                      <button class="shadow-none btn btn-danger">마감하기</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+    {% endif %}
+    <div class="d-flex justify-content-between mt-5">
+        <a href="/teams/{{the_prev}}">
+            <p>이전</p>
+        </a>
+        <a href="/teams/{{the_next}}">
+            <p>다음</p>
+        </a>
+    </div>
+</div>
+
+
+
+{% endblock %}
+
+

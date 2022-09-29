@@ -1,0 +1,60 @@
+img {
+    object-fit: cover;
+    height: 35rem;
+}
+
+.scrollbar a:last-child > div {
+    margin-right: 1.5rem;
+}
+
+.scrollbar {
+    overflow-x: auto;
+}
+
+.carousel-indicators .active {
+    background-color: #F07489;
+}
+
+.scrollbar::-webkit-scrollbar {
+    background-color: #FFFFFF;
+    height: 8px;
+    
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+    background-color: #F07489;
+}
+
+.scrollbar::-webkit-scrollbar-button {
+    display: none;
+}
+
+.scrollbar::-webkit-scrollbar-track-piece:end {
+    margin-right: 10rem; 
+}
+  
+.scrollbar::-webkit-scrollbar-track-piece:start {
+    margin-left: 10rem;
+}
+
+.refreshBtn {
+    color: white;
+}
+
+.refreshBtn:hover {
+    color: #C4C4C4;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 991px) {
+    .carousel-indicators {
+        display: none;
+    }
+    .carousel-item img {
+        height: 15rem;
+        object-fit: cover;
+    }
+    h1 {
+        font-size: 1.5rem;
+    }
+ }

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ko">
+{% include 'head.html' %}
+
+{% load static %}
+<body>
+    <div class="text-center">
+        <a href="{% url 'account:index' %}">
+            <img src="{% static 'img/logo.svg'%}" width="60px" class="my-5">
+        </a>
+        <h1 class="mx-auto">없는 페이지입니다!</h1>
+    </div>
+    <a href="{% url 'account:index' %}">
+        <p class="border-0 text-white text-center py-2 mx-auto my-5" style="background: #F07489; font-size: 1.2rem; width: 200px">돌아가기</p>
+    </a>
+</body>
+</html>

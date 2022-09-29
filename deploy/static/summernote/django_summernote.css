@@ -1,0 +1,36 @@
+@font-face {
+    font-family: 'GmarketSans';
+    src: url("../fonts/GmarketSansMedium.otf") format("opentype");
+}
+
+@font-face {
+    font-family: 'GmarketSans';
+    src: url("../fonts/GmarketSansBold.otf") format("opentype");
+    font-weight: bold;
+}
+
+body {
+  font-family: GmarketSans;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 16px;
+}
+
+.note-editable p, .note-editable li {
+    font-size: 16px;
+    margin-bottom: 1rem;
+}
+.note-editable::-webkit-scrollbar {
+  width: 6px;
+}
+.note-editable::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+.note-editable::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background-color: gray;
+}
+.note-editable::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+}

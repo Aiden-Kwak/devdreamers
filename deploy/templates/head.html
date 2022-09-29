@@ -1,0 +1,75 @@
+{% load static %}
+{% load compress %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="팀을 찾거나 모으기 힘들 때 꿈꾸는 개발자들">
+    <link rel="canonical" href="https://devdreamers.kr/">
+    <title>꿈꾸는개발자들</title>
+
+    <!--  SNS THUMBNAIL  -->
+    <meta property="og:url" content="https://devdreamers.kr/" />
+    <meta property="og:title" content="꿈꾸는 개발자들" />
+    <meta property="og:description" content="팀을 찾거나 모으기 힘들 때 꿈꾸는 개발자들" />
+    <meta property="og:image" content="https://devdreamers.kr/static/img/og_image.png" />
+
+    <!--  GOOGLE ANALYTICS  -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ESJCFVH8ZE"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-ESJCFVH8ZE');
+    </script>
+
+    <!--  NAVER SEARCH ENGINE -->
+    <meta name="naver-site-verification" content="2e16598382d66a87c68e0c53acc18027f5bddf70" />
+    <meta name="naver-site-verification" content="c17f31afcf7b04d7e094fa5ce0de719a9b3c7398" />
+
+    <!--  FONTAWESOME  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
+
+    {% compress css file base %}
+
+    <!--  BOOTSTRAP  -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+
+    <!--  DEFAULT CSS LINK  -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+
+    <!--  TOASTR JQUERY  -->
+    <link rel="stylesheet" href="{% static 'css/toastr.min.css' %}">
+
+    <!--  NICE-SELECT  -->
+    <link rel="stylesheet" href="{% static 'css/nice-select.css' %}">
+
+    {% endcompress %}
+
+    {% compress js file base %}
+
+    <!--  BOOTSTRAP  -->
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+
+    <!--  DEFAULT JQUERY SCRIPT  -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+
+    <!--  DEFAULT JAVASCRIPT SCRIPT  -->
+    <script type="text/javascript" src="{% static 'js/base.js' %}"></script>
+
+    <!--  TOASTR JQUERY  -->
+    <script src="{% static 'js/toastr.min.js' %}"></script>
+
+    <!--  AJAX JS  -->
+    <script src="{% static 'js/ajax.js' %}"></script>
+
+    <!--  NICE-SELECT  -->
+    <script src="{% static 'js/nice-select.min.js' %}"></script>
+
+    {% endcompress %}
+
+    <!--  FAVICON  -->
+    <link rel="shortcut icon" href="{% static 'img/favicon/favicon.ico' %}" type="image/x-icon">
+
+
+</head>

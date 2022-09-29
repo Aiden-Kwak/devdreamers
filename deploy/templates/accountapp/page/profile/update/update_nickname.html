@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/accountapp/profile/update/update-nickname.css' %}">
+{% endblock %}
+{% block content %}
+
+<div class="d-flex justify-content-center mb-3">
+    <div id="container" class="my-5 shadow-lg" style="width: 650px; border-radius: 2rem; padding: 3rem;">
+        <h3>닉네임 변경</h3>
+        <h6 style="color: #808080;">10글자이내의 한글,영문,숫자,특수기호(-, _)만 가능합니다</h6>
+        <form action="{% url 'account:setting_nickname' %}", method="post">
+        {% csrf_token %}
+            <div class="p-5">
+                <div class="nickname-container mb-4">
+                    <div class="fs-4 nickname">기존 닉네임</div>
+                    <div style="color: #808080;">{{ nickname }}</div>
+                </div>
+                <hr class="lineshow" style="display: none">
+                <div class="nickname-container">
+                    <div class="fs-4 nickname">새로운 닉네임</div>
+                    <input type="text" name="nickname" style="outline: none; border: none; border-bottom: 1px solid black; color: #808080;" maxlength="10" required>
+                </div>
+            </div>
+            <div align="center">
+                <button id="cancelBtn" type="button" onclick="window.history.back();">취소</button>
+                <button id="nextBtn">변경하기</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

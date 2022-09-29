@@ -1,0 +1,67 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/contestapp/snippets/glider.css' %}" />
+<script src="{% static 'js/contestapp/glider.min.js' %}"></script>
+<script>
+    window.addEventListener('load',function() {
+        document.querySelector('.glider').addEventListener('glider-slide-visible', function(event){
+            var glider = Glider(this);
+            // console.log('Slide Visible %s', event.detail.slide)
+        });
+        document.querySelector('.glider').addEventListener('glider-slide-hidden', function(event){
+            // console.log('Slide Hidden %s', event.detail.slide)
+        });
+        document.querySelector('.glider').addEventListener('glider-refresh', function(event){
+            // console.log('Refresh')
+        });
+        document.querySelector('.glider').addEventListener('glider-loaded', function(event){
+            // console.log('Loaded')
+        });
+
+        window._ = new Glider(document.querySelector('.glider'), {
+            slidesToShow: 3,
+            slidesToScroll: 3,
+            itemWidth: 360,
+            draggable: true,
+            scrollLock: false,
+            dots: '#dots',
+            rewind: true,
+            arrows: {
+                prev: '.glider-prev',
+                next: '.glider-next'
+            },
+        });
+    });
+</script>
+<div class="slider" style="margin: 2rem 0 1rem 0; height: 435px">
+    {% if poster_list %}
+        <div class="glider-contain">
+            <div class="glider">
+                {% for poster in poster_list %}
+                <a class="slide" href="{% url 'contest:detail' pk=poster.pk %}" style="display: inline-block">
+                    <img src="{{ poster.image.url }}">
+                    <div>
+                        <div class="text-white p-4">
+                            <h5>{{ poster.title|truncatechars:15 }}</h5>
+                            <h6>{{ poster.category }}</h6>
+                            <h6>{{ poster.host }} | {{ poster.show_deadline.0 }}</h6>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+            <button class="glider-prev"><i class="fas fa-chevron-left"></i></button>
+            <button class="glider-next"><i class="fas fa-chevron-right"></i></button>
+        <div id="dots" class="mt-2"></div>
+    </div>
+    {% else %}
+    <div class="d-flex flex-column align-items-center justify-content-center h-100">
+        <h3>아직 등록된 <span style="color: #F07489">대회 및 공모전</span>이 없습니다</h3>
+    </div>
+    {% endif %}   
+</div>
+<script>
+    setInterval(() => {
+        document.querySelector(".glider-next").click()
+    }, 5000);
+</script>

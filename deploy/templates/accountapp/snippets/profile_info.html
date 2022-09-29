@@ -1,0 +1,261 @@
+{% load static %}
+
+<div class="base-info shadow-lg p-4 h-100" style="border-radius: 2rem; background: #F07489; width:350px;">
+    <h4 class="mb-4" style="color: white;"><i class="fas fa-info-circle"></i> 기본 정보</h4>
+    <div class="mb-4 py-2 bg-light shadow" style="border-radius:1rem;">
+        <p class="mb-2 ms-3"><i class="fab fa-buffer"></i> 분야 & 상태</p>
+        <div class="d-flex justify-content-evenly">
+            <center class="mt-1">
+                {% if target_user.profile.type == "0" %}
+                <i class="fas fa-code"></i>
+                {% elif target_user.profile.type == "1" %}
+                <i class="fas fa-pencil-ruler"></i>
+                {% elif target_user.profile.type == "2" %}
+                <i class="far fa-compass"></i>
+                {% else %}
+                <i class="fas fa-align-justify"></i>
+                {% endif %}
+                <p>{{ target_user.profile.get_type_display }}</p>
+            </center>
+            <center class="mt-1">
+                {% if target_user.profile.status == "0" %}
+                <i class="fas fa-power-off"></i>
+                {% elif target_user.profile.status == "1" %}
+                <i class="fas fa-search"></i>
+                {% elif target_user.profile.status == "2" %}
+                <i class="fas fa-check"></i>
+                {% else %}
+                <i class="fas fa-align-justify"></i>
+                {% endif %}
+                <p>{{ target_user.profile.get_status_display }}</p>
+            </center>
+        </div>
+    </div>
+    {% if visible %}
+    <div class="mb-4 px-3 py-2 bg-light shadow" style="border-radius:1rem;">
+        <p class="mb-2"><i class="far fa-envelope"></i> 이메일</p>
+        {% if target_user.profile.email %}
+            <span style="font-size:.9rem;">{{ target_user.profile.email }}</span>
+        {% else %}
+            <span style="font-size:.9rem;">등록된 이메일이 없습니다.</span>
+        {% endif %}
+    </div>
+    <div class="mb-4 px-3 py-2 bg-light shadow" style="border-radius: 1rem;">
+        <p class="mb-2"><i class="fab fa-github"></i> 깃허브</p>
+        {% if target_user.profile.github %}
+            <a class="d-block" href="{{ target_user.profile.github }}" target="_blank" style="font-size:.9rem; text-overflow: ellipsis; overflow: hidden">{{ target_user.profile.github }}</a>
+        {% else %}
+            <span style="font-size:.9rem;">등록된 깃허브 주소가 없습니다.</span>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <div class="mb-4 px-3 py-2 bg-light shadow" style="border-radius: 1rem;">
+        <p class="m-0"><i class="far fa-id-badge"></i> 프로필 공개범위</p>
+        {% if target_user.profile.to_open == True %}
+        <span style="font-size:.9rem;">전체에 공개</span>
+        {% else %}
+        <span style="font-size:.9rem;">"{{ target_user.get_school_display }}"에만 공개</span>
+        {% endif %}
+    </div>
+
+    <div class="mb-4 px-3 py-2 bg-light shadow" style="border-radius: 1rem;">
+        <p class="mb-2"><i class="fas fa-sign-in-alt"></i> 꿈꾸는 개발자들 시작일</p>
+        {% if user == request.user %}
+            {% if target_user.since_date_event == 0 %}
+            <p class="text-center">가입을 <span style="color: #F07489">환영</span>합니다 !</p>
+            {% elif target_user.since_date_event == 1 %}
+            <p class="text-center"><span style="color: #F07489">{{ target_user.show_since_date }}</span>일 달성을 <span style="color: #F07489">축하</span>합니다 !</p>
+            {% endif %}
+        {% endif %}
+        <span style="font-size:.9rem;">{{ target_user.date_joined | date:"Y년 m월 d일" }} ( {% if target_user.show_since_date == 0 %}시작일{% else %}{{ target_user.show_since_date }}일째{% endif %} )</span>
+    </div>
+</div>
+<div class="detail-info shadow-lg ms-5" style="width:650px; border-radius: 2rem; padding: 2rem; position: relative">
+    <div class="mb-2">
+        <h4 class="mb-1">학력</h4>
+        <div id="spec-detail" class="d-grid" style="grid-template-columns: 6rem 1fr">
+            <img src="{% static 'img/school/'|add:target_user.school|add:'.png' %}" style="width: 6rem; height: 6rem" alt="{{ target_user.school }} 로고">
+            <div class="ms-2 p-2">
+                <h5>{{ target_user.get_school_display }}</h5>
+                <h5 class="mb-0">{{ target_user.department }} 전공</h5>
+                <span style="color: #6C757D; ">{{ target_user.get_school_status_display }}</span>
+            </div>
+        </div>
+    </div>
+    <hr style="border: solid 0.5px black">
+    <div class="mb-2">
+        <h4>관심 분야</h4>
+        {% if target_user.profile.interest.all %}
+        <ul class="tags-container">
+            {% for interest in target_user.profile.interest.all %}
+                <li class="tag-item-1">{{ interest }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="text-center text-secondary p-2">등록된 관심분야가 없습니다</p>
+        {% endif %}
+    </div>
+    <hr style="border: solid 0.5px black">
+    <div class="mb-2">
+        <h4>개발 역량 (사용 가능 언어, 도구)</h4>
+        {% if target_user.profile.stack.all %}
+        <ul class="tags-container">
+            {% for stack in target_user.profile.stack.all %}
+                <li class="tag-item-2">{{ stack }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="text-center text-secondary p-2">등록된 개발역량이 없습니다</p>
+        {% endif %}
+    </div>
+    {% if visible %}
+    {% if target_user.profile.activity.all %}
+    <div class="my-5">
+        <h4 class="mb-3">활동 사항</h4>
+        {% for activity in target_user.profile.activity.all %}
+        <div class="accordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="activity-heading-{{ forloop.counter }}">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#activity-collapse-{{ forloop.counter }}" aria-expanded="true" aria-controls="activity-collapse-{{ forloop.counter }}">
+                    <div>
+                        <div class="profile-content mb-1">
+                            <span style="color: #6C757D">{{ activity.get_type_display }}</span>
+                            <span>{{ activity.name }}</span>
+                        </div>
+                        <div class="profile-content">
+                            <span style="color: #6C757D">역할</span>
+                            <span>{{ activity.role }}</span>
+                        </div>
+                        
+                    </div>
+                </button>
+                </h2>
+                <div id="activity-collapse-{{ forloop.counter }}" class="accordion-collapse collapse" aria-labelledby="activity-heading-{{ forloop.counter }}">
+                <div class="accordion-body fs-6">
+                    <div class="profile-content">
+                            <span style="color: #6C757D">활동 기간</span>
+                            <span>{{ activity.start_date | date:"Y.m" }} ~ {{ activity.end_date | date:"Y.m" }}</span>
+
+                    </div>
+                    <div class="profile-content">
+                        <span style="color: #6C757D">활동 설명</span>
+                        <span>{{ activity.description }}</span>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% if target_user.profile.language.all %}
+    <div class="mt-4">
+        <h4 class="mb-3">외국어</h4>
+        {% for language in target_user.profile.language.all %}
+        <div class="lang-detail fs-5 p-3">
+            <span id="langname" style="margin-left: 1rem">{{ language.name }}</span><br class="d-none" id="nextline">
+            <span style="color: #6C757D">{{ language.get_ability_display }}</span>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if target_user.profile.certificate.all %}
+    <div class="my-5">
+        <h4 class="mb-3">자격증</h4>
+        {% for certificate in target_user.profile.certificate.all %}
+        <div class="certificate-detail fs-6 p-3 ps-4">
+            <div class="certificate-content mb-1">
+                <span id="certificatename" style="color: #6C757D">자격증명</span>
+                <span class="fs-6">{{ certificate.name }}</span>
+            </div>
+            <div class="certificate-content">
+                <span id="certificatedate" style="color: #6C757D">취득 날짜</span>
+                <span>{{ certificate.date | date:"Y년 m월" }}</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% if target_user.profile.award.all %}
+    <div class="my-5">
+        <h4 class="mb-3">수상 실적</h4>
+        {% for award in target_user.profile.award.all %}
+        <div class="accordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="award-heading-{{ forloop.counter }}">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#award-collapse-{{ forloop.counter }}" aria-expanded="true" aria-controls="award-collapse-{{ forloop.counter }}">
+                    <div>
+                        <div class="profile-content mb-1">
+                            <span style="color: #6C757D">대회명</span>
+                            <span>{{ award.name }}</span>
+                        </div>
+                        <div class="profile-content">
+                            <span style="color: #6C757D">수상 내역</span>
+                            <span>{{ award.result }}</span>
+                        </div>
+                    </div>
+                </button>
+                </h2>
+                <div id="award-collapse-{{ forloop.counter }}" class="accordion-collapse collapse" aria-labelledby="award-heading-{{ forloop.counter }}">
+                <div class="accordion-body fs-6">
+                    <div class="profile-content">
+                        <span style="color: #6C757D">주최 기관</span>
+                        <span>{{ award.organization }}</span>
+                    </div>
+                    <div class="profile-content">
+                        <span style="color: #6C757D">날짜</span>
+                        <span>{{ award.date | date:"Y년 m월" }}</span>
+                    </div>
+                    <div class="profile-content">
+                        <span style="color: #6C757D">활동 설명</span>
+                        <span>{{ award.description }}</span>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if target_user.profile.intern.all %}
+    <div class="my-5">
+        <h4 class="mb-3">인턴 근무</h4>
+        {% for intern in target_user.profile.intern.all %}
+        <div class="accordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="intern-heading-{{ forloop.counter }}">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#intern-collapse-{{ forloop.counter }}" aria-expanded="true" aria-controls="intern-collapse-{{ forloop.counter }}">
+                    <div>
+                        <div class="profile-content mb-1">
+                            <span style="color: #6C757D">회사명</span>
+                            <span>{{ intern.name }}</span>
+                        </div>
+                        <div class="profile-content">
+                            <span style="color: #6C757D">역할</span>
+                            <span>{{ intern.role }}</span>
+                        </div>
+                    </div>
+                </button>
+                </h2>
+                <div id="intern-collapse-{{ forloop.counter }}" class="accordion-collapse collapse" aria-labelledby="intern-heading-{{ forloop.counter }}">
+                <div class="accordion-body fs-6">
+                    <div class="profile-content">
+                        <span style="color: #6C757D">인턴 기간</span>
+                        <span>{{ intern.start_date | date:"Y.m" }} ~ {{ intern.end_date | date:"Y.m" }}</span>
+                    </div>
+                    <div class="profile-content">
+                        <span style="color: #6C757D">활동 설명</span>
+                        <span>{{ intern.description }}</span>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endif %}
+</div>

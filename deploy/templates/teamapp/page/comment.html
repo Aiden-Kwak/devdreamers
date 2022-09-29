@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/comment.css' %}">
+{% endblock %}
+{% block content %}
+<div class="box" style="position: absolute;
+top: 10px; width: 100%; height: 800px; background: {{ team.team_color }}; z-index: -10;">
+</div>
+<div class="container p-5 shadow my-5" style="margin-top: 150px; background:white;">
+    <div class="d-flex my-3 justify-content-between align-items-center">
+        <h4 class="mb-0">댓글 쓰기</h4>
+        <a href="{% url 'team:detail' pk=pk %}" class="p-2 text-secondary">돌아가기</a>
+    </div>
+    <div class="comment-form p-2 pb-4" style="border: .5px solid #C4C4C4; border-radius: 15px; position: relative;">
+        <textarea name="content" rows="5" class="w-100 p-2" style="border: none; resize: none;"></textarea>
+        <button class="post-comment-team">댓글 등록</button>
+    </div>
+    <h5 class="mt-5">{{ team.comment.all | length }}개의 댓글</h5>
+    {% for comment in team.comment.all %}
+        {% include 'teamapp/snippets/comment.html' with comment=comment %}
+    {% endfor %}
+</div>
+
+{% endblock %}

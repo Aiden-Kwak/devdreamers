@@ -1,0 +1,19 @@
+{% load static %}
+<div class="logo-header my-5 w-100 text-center">
+    <a href="{% url 'account:index' %}">
+        <img src="{% static 'img/logo.svg' %}" style="width: 3rem;">
+    </a>
+</div>
+<div class="container mx-auto py-5">
+    <div class="index-container">
+        <img src="{% static 'img/main.png' %}">
+        <div class="d-flex flex-column text-center align-items-center justify-content-center">
+            <h1>꿈꾸는 개발자들</h1>
+            <p>Make Your Dream to Reality</p>
+            <a href="{% url 'account:login' %}" class="d-inline-block shadow w-100 p-2 mb-3"
+               style="background: #EBF0F5;">로그인</a>
+            <a href="{% url 'account:signup' %}" class="d-inline-block shadow w-100 p-2"
+               style="background: #F07489; color:white;">회원가입</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/contestapp/detail.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="box" style="position: absolute;
+top: 10px; width: 100%; height: 800px; background: #F07489; z-index: -10;">
+</div>
+
+<div class="position-fixed d-block w-100 next_page" style="top: 50%; z-index: 2; transform: translateY(-50%);">
+    <a href="/contest/{{the_prev}}">
+        <p class="float-start arrow-left"><i class="fas fa-chevron-left"></i></p>
+    </a>
+    <a href="/contest/{{the_next}}">
+        <p class="float-end arrow-right"><i class="fas fa-chevron-right"></i></p>
+    </a>
+</div>
+
+<div class="container shadow my-5" style="margin-top: 150px; background:white; padding: 2rem">
+    <div class="top-container">
+        <div class="mx-3 d-flex flex-column justify-content-center">
+            <div class="contest-img"><img src="{{ target_contest.image.url }}"></div>
+
+        </div>
+        <div class="mx-3 content-detail"  style="z-index: 10">
+            <h3 class="text-center">
+                <p>{{ target_contest.title }}</p>
+                <div class="text-end">
+                    {% if subscription %}
+                    <span class="subscribe-contest mb-0"><i class="fas fa-star" style="font-size:1.5rem; color:#F07489;"></i></span>
+                    {% else %}
+                    <span class="subscribe-contest mb-0"><i class="far fa-star" style="font-size:1.5rem; color:#F07489;"></i></span>
+                    {% endif %}
+                    <a href="{% url 'contest:comment' pk=target_contest.pk %}" style="" class="text-secondary p-2">
+                        <i class="far fa-comments" style="font-size:1.5rem;"></i>
+                        <span style="font-size:1rem;">{{comment}}</span>
+                    </a>
+                </div>
+            </h3>
+            <div class="detail-grid">
+                <div>모집기간</div>
+                <div style="color: #808080; align-items: center">{{ target_contest.start_date| date:"Y년 m월 d일" }} ~ {{ target_contest.finish_date| date:"Y년 m월 d일" }}</div>
+                <div>등록일</div>
+                <div style="color: #808080;">{{ target_contest.created_at | date:"Y년 m월 d일" }}</div>
+                <div>주최 / 주관</div>
+                <div style="color: #808080;">{{ target_contest.host }}</div>
+                <div>공모대상</div>
+                <div style="color: #808080;">{{ target_contest.participant }}</div>
+                <div>홈페이지</div>
+                <a href="{{ target_contest.homepage }}" target="_blank" title="주최사 페이지로 이동" style="color: #F07489; word-break:break-all; font-size: .9rem"><div>[ 주최사 페이지로 이동 ]</div></a>
+                <div>분야</div>
+                <div class="contest-category">
+                    {% for category in target_contest.category %}
+                        <li class="px-1 pt-1 mb-0 tag-item-1">{{ category }}</li>
+                    {% endfor %}
+                </div>
+
+            </div>
+            <div class="contest-img-mobile mt-1"><img src="{{ target_contest.image.url }}"></div>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <div class="p-2" id="contest-detail-border">
+            <p class="fs-4">상세 정보</p>
+            <p class="fs-6" style="color: #808080">※ 본 내용은 참고 자료입니다. 반드시 주최사 홈페이지의 일정 및 상세 내용을 확인하세요</p>
+        </div>
+        <div class="summernote-content mt-3">{{ target_contest.content | safe | linebreaks }}</div>
+    </div>
+</div>
+
+<script>
+    const poster = document.querySelector(".contest-img");
+    const body = document.querySelector("body");
+    
+
+    poster.addEventListener("click", () => {
+        let zoom_background = body.appendChild(document.createElement("div"));
+        zoom_background.style.animation = "fade-in 0.5s"
+        zoom_background.style.animationFillMode = "forwards"
+        zoom_background.className += 'zoom_background';
+
+        let zoom_poster = zoom_background.appendChild(document.createElement("img"));
+        zoom_poster.src = "{{ target_contest.image.url }}"
+
+        function detectMediaSize() { 
+            if ( window.matchMedia('(min-width: 576px)').matches ) {
+                zoom_poster.className = ''
+                zoom_poster.className += 'zoom_poster_pc'
+            } else {
+                zoom_poster.className = ''
+                zoom_poster.className += 'zoom_poster_mobile'
+            }
+        };
+
+        detectMediaSize();
+        window.addEventListener('resize', detectMediaSize);
+
+        body.className = "stop-scrolling"
+
+        zoom_background.addEventListener("click", () => {
+            zoom_background.remove()
+            body.className -= 'zoom_poster'
+        })
+        
+    })
+</script>
+
+{% endblock %}
+
+

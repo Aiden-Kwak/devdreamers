@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+{% include 'head.html' %}
+{% load static %}
+{% load compress %}
+
+{% compress css file extra %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/accountapp/auth/find_account.css' %}">
+{% endcompress %}
+
+<body>
+    <div class="text-center">
+        <a href="{% url 'account:index' %}">
+            <img src="{% static 'img/logo.svg'%}" width="60px" class="my-5">
+        </a>
+    </div>
+    <div class="d-flex justify-content-center">
+        <div class="main-container">
+            <div class="two-box" align="center">
+                <h4><span style="color: #F07489">아이디</span>를 잊어버리셨나요?</h4>
+                <button class="btn-default" onclick="location.href='/findid/'">아이디 찾기</button>
+            </div>
+            <div class="divider"></div>
+            <div class="divider-mobile"></div>
+            <div class="two-box" align="center">
+                <h4><span style="color: #F07489">비밀번호</span>를 잊어버리셨나요?</h4>
+                <button class="btn-default" onclick="location.href='/findpw/'">비밀번호 찾기</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

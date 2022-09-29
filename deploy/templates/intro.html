@@ -1,0 +1,203 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/index/intro.css' %}">
+{% endblock %}
+
+
+{% block content %}
+<div align="center" class="mb-5" style="margin-top: 9rem">
+    <div class="pt-2 mb-5" style="border-top: #cbcfd4 .2px solid; width: 250px">
+        <button id="intro_btn" style="color: #F07489; border-bottom: #F07489 2px solid">소개</button>
+        <button id="func_btn" class="ms-2">영상 모음</button>
+        <button id="note_btn" class="ms-2">버전 기록</button>
+    </div>
+    
+    <div id="intro_view" style="animation: fade-in 1s; animation-fill-mode: forwards">
+        <div style="display: flex; flex-direction: column; align-items: center">
+            <div align="center">
+                <img src="https://user-images.githubusercontent.com/48237469/126906540-8edb911c-586f-41e0-95da-6ffd21c624b0.png" width="150px">
+                <p class="m-4 fs-2" style="">꿈꾸는 개발자들</p>
+            </div>
+            <div class="mt-5 abstract">
+                <h4 align="center">개요</h4>
+                <p align="left" class="mt-4" style="line-height: 2rem">&nbsp&nbsp프로젝트, 스터디, 창업와 같은 팀 프로젝트에 대한 흥미와 열정은 있지만 여러가지 이유로 팀을 구성하지 못해 어려워하는 성균관대 학생들을 위한 웹사이트</p>
+                
+            </div>
+            <div>
+                <h4 align="center" style="margin-top: 6rem">타임라인</h4>
+                <div class="timeline-grid mt-4" align="left">
+                    <div>2021.02.07</div>
+                    <div>프로젝트 시작</div>
+                    <div>2021.04.09</div>
+                    <div>SPARK 7기 합격</div>
+                    <div>2021.07.17</div>
+                    <div>배포 완료 및 테스트</div>
+                </div>
+            </div>
+            <div align="left" style="margin-top: 7rem">
+                    <h4 align="center">구성원</h4>
+                    <div class="d-flex justify-content-center staff">
+                        <div align="center">
+                            <img src="{% static 'img/staff.svg' %}" width=70 height=70 >
+                            <h4>송영욱</h4>
+                            <h6>
+                                팀장, 기획, 풀스택
+                            </h6>
+                            <h6>
+                                (2021.02 ~ )
+                            </h6>
+                        </div>
+                        <div align="center">
+                            <img src="{% static 'img/staff.svg' %}" width=70 height=70 >
+                            <h4>곽병혁</h4>
+                            <h6>
+                                백/프론트, 서버
+                            </h6>
+                            <h6>
+                                (2021.02 ~ )
+                            </h6>
+                        </div>
+                        <div align="center">
+                            <img src="{% static 'img/staff.svg' %}" width=70 height=70 >
+                            <h4>권민성</h4>
+                            <h6>
+                                프론트엔드, 디자인
+                            </h6>
+                            <h6>
+                                (2021.02 ~ )
+                            </h6>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center staff">
+                        <div align="center">
+                            <img src="{% static 'img/staff.svg' %}" width=70 height=70 >
+                            <h4>박민지</h4>
+                            <h6>
+                                백엔드
+                            </h6>
+                            <h6>
+                                (2021.08 ~ )
+                            </h6>
+                        </div>
+                        <div align="center">
+                            <img src="{% static 'img/staff.svg' %}" width=70 height=70 >
+                            <h4>유준혁</h4>
+                            <h6>
+                                프론트엔드
+                            </h6>
+                            <h6>
+                                (2021.09 ~ )
+                            </h6>
+                        </div>
+                    </div>
+                    
+            </div>
+            <h4 align="center" style="margin-top: 7rem">Developed With</h4>
+            <div class="mt-4">
+                <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=HTML5&logoColor=white"/></a>
+                <img src="https://img.shields.io/badge/Bootstrap-5.0.1-7952B3?style=flat-square&logo=Bootstrap&logoColor=7952B3"/></a>
+                <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=CSS3&logoColor=white"/></a>
+                <img src="https://img.shields.io/badge/Javascript-orange?style=flat-square&logo=Javascript&logoColor=white"/></a>
+            </div>
+            <div>
+                <img src="https://img.shields.io/badge/Django-3.2.5-092E20?style=flat-square&logo=Django&logoColor=092E20"/></a>
+                <img src="https://img.shields.io/badge/Nginx-1.21.1-009639?style=flat-square&logo=Nginx&logoColor=009639"/></a>
+                <img src="https://img.shields.io/badge/PostgreSQL-13.3-4169E1?style=flat-square&logo=PostgreSQL&logoColor=4169E1"/></a>
+            </div>
+            <div style="margin-bottom: 5rem">
+                <img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=Docker&logoColor=white"/></a>
+                <img src="https://img.shields.io/badge/Portainer-13BEF9?style=flat-square&logo=Portainer&logoColor=white"/></a>
+                <img src="https://img.shields.io/badge/AWS-232F3E?style=flat-square&logo=amazonAWS&logoColor=white"/></a>
+                <img src="https://img.shields.io/badge/Google Analytics-E37400?style=flat-square&logo=GoogleAnalytics&logoColor=white"/></a>
+            </div>
+        </div>
+    </div>
+
+    <div id="func_view" style="display: none; flex-direction: column; align-items: center">
+        <h5 class="text-dark">홍보 영상</h5>
+        <iframe class="youtube-video" width="560" height="315" src="https://www.youtube.com/embed/K5jasICyVS8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <h5 class="mt-5 text-dark">기능 소개 영상</h5>
+        <iframe class="youtube-video" width="560" height="315" src="https://www.youtube.com/embed/Pz-ND3nmoPQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <h6 style="color: #808080" class="mt-2">영상이 뜨지 않으면 Adblock을 꺼주세요</h6>
+    </div>
+
+    <div id="note_view" style="display: none">
+        <div style="display: flex; flex-direction: column; align-items: center">
+            <div class="version-grid" align="left">
+                <div style="color: #F07489">1.0.0</div>
+                <div>
+                    <h5 style="color: #F07489">'꿈꾸는 개발자들' 배포</h5>
+                    <h6></h6>
+                </div>
+                <div>1.0.1</div>
+                <div>
+                    <h5>로그인 로직 변경</h5>
+                    <h6>로그인을 하지 않은 상태에서도 팀 목록을 조회할 수 있습니다</h6>
+                    <h5>팀 찾기 / 팀원 찾기 필터 추가</h5>
+                    <h6>필터를 통해 더 세부적으로 팀 / 팀원을 찾을 수 있습니다. (팀: 모집분야, 팀 종류, 팀 이름 검색, 닉네임 검색)</h6>
+                </div>
+                <div>1.0.2</div>
+                <div>
+                    <h5>대회 및 공모전 메뉴 추가</h5>
+                    <h6>교내 / 교외에서 진행하는 각종 대회 및 공모전을 찾아볼 수 있습니다</h6>
+                    <h5>소개 페이지 추가</h5>
+                    <h6>'꿈꾸는 개발자들'에 대한 간단한 소개와 기능 설명, 개발 현황에 대한 정보들을  확인할 수 있습니다</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const intro_btn = document.querySelector('#intro_btn');
+    const func_btn = document.querySelector('#func_btn');
+    const note_btn = document.querySelector('#note_btn');
+    const intro = document.querySelector('#intro_view');
+    const func = document.querySelector('#func_view');
+    const note = document.querySelector('#note_view');
+
+    intro_btn.addEventListener('click', () => {
+        intro.style.display = "block";
+        func.style.display = "none";
+        note.style.display = "none";
+        intro_btn.style.color = "#F07489";
+        func_btn.style.color = "black";
+        note_btn.style.color = "black";
+        intro_btn.style.borderBottom = "#F07489 2px solid";
+        func_btn.style.borderBottom = "none";
+        note_btn.style.borderBottom = "none";
+        intro.style.animation = "fade-in 1s";
+        intro.style.animationFillMode = "forwards";
+    })
+
+    func_btn.addEventListener('click', () => {
+        intro.style.display = "none";
+        func.style.display = "flex";
+        note.style.display = "none";
+        intro_btn.style.color = "black";
+        func_btn.style.color = "#F07489";
+        note_btn.style.color = "black";
+        intro_btn.style.borderBottom = "none";
+        func_btn.style.borderBottom = "#F07489 2px solid";
+        note_btn.style.borderBottom = "none";
+        func.style.animation = "fade-in 1s";
+        func.style.animationFillMode = "forwards";
+    })
+
+    note_btn.addEventListener('click', () => {
+        intro.style.display = "none";
+        func.style.display = "none";
+        note.style.display = "block";
+        intro_btn.style.color = "black";
+        func_btn.style.color = "black";
+        note_btn.style.color = "#F07489";
+        intro_btn.style.borderBottom = "none";
+        func_btn.style.borderBottom = "none";
+        note_btn.style.borderBottom = "#F07489 2px solid";
+        note.style.animation = "fade-in 1s";
+        note.style.animationFillMode = "forwards";
+    })
+</script>
+{% endblock %}

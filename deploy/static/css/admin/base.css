@@ -1,0 +1,17 @@
+@font-face {
+    font-family: 'GmarketSans';
+    src: url("/static/fonts/GmarketSansMedium.otf") format("opentype");
+}
+
+@font-face {
+    font-family: 'GmarketSans';
+    src: url("/static/fonts/GmarketSansBold.otf") format("opentype");
+    font-weight: bold;
+}
+
+body {
+  font-family: GmarketSans, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+}

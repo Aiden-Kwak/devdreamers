@@ -1,0 +1,14 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+{% block title %}관리자페이지-꿈꾸는개발자들{% endblock %}
+{% block extrahead %}
+    <link rel="shortcut icon" href="{% static 'img/favicon/favicon.ico' %}" />
+{% endblock %}
+{% block extrastyle %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/admin/base.css' %}" />
+
+{% endblock %}
+{% block branding %}
+<p id="site-name" style="color:white; font-size: 1.2rem;">즐거운 관리자 페이지</p>
+{% endblock %}

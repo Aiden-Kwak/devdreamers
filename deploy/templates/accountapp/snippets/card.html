@@ -1,0 +1,49 @@
+{% for profile in profile_list %}
+    {% if landing %}
+        <a href="{% url 'account:detail' slug=profile.nickname %}">
+            <div class="landing-profile-card">
+    {% else %}
+        <a href="{% url 'account:detail' slug=profile.nickname %}" class="w-100">
+            <div class="profile-card mx-auto">
+    {% endif %}
+            <div class="px-4 pt-4 pb-3">
+                <div class="d-grid align-items-center" style="grid-template-columns: 100px 1fr;">
+                    <div class="shadow" style="background-image: url({{ profile.image.url }});  border-radius: 1rem;
+                          background-size:cover; width:100px; height: 100px;"></div>
+                    <div class="ps-4">
+                        <p class="mb-2" style="font-size: 1.05rem;"><strong>{{ profile.nickname|truncatechars:10 }}</strong></p>
+                        <p class="mb-0" style="font-size: 1rem;">{{ profile.user.get_school_display }}</p>
+                        <p class="mb-0" style="font-size: .95rem">{{ profile.user.department }}</p>
+                    </div>
+                </div>
+                <div class="mt-2 justify-content-start">
+                        
+                    <div class="d-grid align-items-center" style="grid-template-columns: 5rem 1fr">
+                        <p class="mb-0 me-2 fs-6 py-3">관심분야 </p>
+                        <div class="tags-container" id ="scroll1">
+                        {% if profile.interest.all %}
+                        {% for interest in profile.interest.all %}
+                            <li class="tag-item-1">{{ interest }}</li>
+                        {% endfor %}
+                        {% else %}
+                            <p class="text-center m-0 fs-6 my-2 text-secondary">등록된 관심분야가 없습니다</p>
+                        {% endif %}
+                        </div>
+                    </div>
+                    <div class="d-grid align-items-center" style="grid-template-columns: 5rem 1fr">
+                        <p class="mb-0 me-2 fs-6 py-3">개발역량 </p>
+                        <div class="tags-container" id="scroll2">
+                        {% if profile.stack.all %}
+                        {% for stack in profile.stack.all %}
+                            <li class="tag-item-2">{{ stack }}</li>
+                        {% endfor %}
+                        {% else %}
+                            <p class="text-center m-0 fs-6 my-2 text-secondary">등록된 개발역량이 없습니다</p>
+                        {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+{% endfor %}

@@ -1,0 +1,557 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/accountapp/profile/update/update.css' %}">
+<link rel="stylesheet" href="{% static 'css/autocomplete.css' %}">
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'js/accountapp/profile/dynamic_form_submit.js' %}"></script>
+<script src="{% static 'js/autocomplete-tag.js' %}"></script>
+<script src="{% static 'js/autocomplete-ajax.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+<div class="w-100" style="height: 200px;">
+</div>
+<form method="post" action="{% url 'account:update' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="text-center mb-4">
+        <input type="file" class="input-image" style="display:none" name="image" accept="image/*"/>
+        <div class="shadow-lg mx-auto mb-4 preview-image upload-image" style="border-radius: 2rem;  background-size:cover;
+        background-image: url({{ profile.image.url }}); width: 180px; height: 180px; margin-top: -90px;"></div>
+        <h1 class="text-center">{{ profile.nickname }}</h1>
+        <small class="text-center text-secondary">최근 로그인 : {{ user.show_date }}</small>
+    </div>
+
+    <div class="container">
+        <hr class="w-100">
+        <div class="profile-menu text-center">
+            <a href="{% url 'account:detail' slug=user.profile.nickname %}" class="pb-2">프로필</a>
+            <a href="{% url 'account:article' slug=user.profile.nickname %}" class="ms-4 pb-2">모집글</a>
+            {% if user == request.user %}
+                <a href="{% url 'account:subscribe' %}" class="ms-4 pb-2">즐겨찾기</a>
+                <a href="{% url 'account:update' %}" class="ms-4 pb-2" style="color: #F07489; border-bottom: 2px solid;">프로필 설정</a>
+            {% endif %}
+        </div>
+        <div class="profile-info d-flex justify-content-center my-5">
+            <div class="base-info shadow-lg p-4 h-100" style="border-radius: 2rem; background: #F07489; width:350px;">
+                <h4 class="mb-4" style="color: white;"><i class="fas fa-info-circle"></i> 기본 정보</h4>
+                <div class="mb-4 ps-3 pe-3 py-2 bg-light shadow" style="border-radius:1rem;">
+                    <div class="align-items-center d-grid" style="grid-template-columns: 2fr 1fr">
+                        <p class="m-0"><i class="far fa-id-badge"></i> 프로필 공개범위</p>
+                        <select class="nice-select wide" name="to_open">
+                            <option value="False" {% if not user.profile.to_open %}selected{% endif %}>학교</option>
+                            <option value="True" {% if user.profile.to_open %}selected{% endif %}>전체</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-4 ps-3 pe-3 py-2 bg-light shadow" style="border-radius:1rem;">
+                    <p class="mb-1"><i class="fab fa-buffer"></i> 분야</p>
+                    <div class="select-type-container mt-1">
+                        <div class="select-type">
+                            <input type="radio" name="type" value="0" id="0" {% if profile.type == '0' %}checked{% endif %}>
+                            <label for="0">
+                                <p class="my-3" style="font-size:.9rem;">개발자</p>
+                            </label>
+                        </div>
+                        <div class="select-type">
+                            <input type="radio" name="type" value="1" id="1" {% if profile.type == '1' %}checked{% endif %}>
+                            <label for="1">
+                                <p class="my-3" style="font-size:.9rem;">디자이너</p>
+                            </label>
+                        </div>
+                        <div class="select-type">
+                            <input type="radio" name="type" value="2" id="2" {% if profile.type == '2' %}checked{% endif %}>
+                            <label for="2">
+                                <p class="my-3" style="font-size:.9rem;">기획자</p>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-4 ps-3 pe-3 py-2 bg-light shadow" style="border-radius:1rem;">
+                    <div class="align-items-center d-grid" style="grid-template-columns: 5rem 1fr">
+                        <p class="m-0"><i class="fab fa-buffer"></i> 상태</p>
+                        <select class="nice-select wide" name="status">
+                            <option value="0" {% if profile.status == '0' %}selected{% endif %}>휴식 중</option>
+                            <option value="1" {% if profile.status == '1' %}selected{% endif %}>팀 찾는 중</option>
+                            <option value="2" {% if profile.status == '2' %}selected{% endif %}>팀 참가 중</option>
+                            <option value="3" {% if profile.status == '3' %}selected{% endif %}>기타</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-4 ps-3 pe-3 py-2 bg-light shadow" style="border-radius:1rem;">
+                    <p class="mb-2"><i class="far fa-envelope"></i> 이메일</p>
+                    <input type="text" class="form-control shadow-none" name="email"
+                           value="{{ profile.email | default_if_none:'' }}"
+                           placeholder="연락에 사용할 이메일 주소">
+                </div>
+                <div class="mb-4 ps-3 pe-3 py-2 bg-light shadow" style="border-radius: 1rem;">
+                    <p class="mb-2"><i class="fab fa-github"></i> 깃허브</p>
+                    <input type="text" class="form-control shadow-none" name="github"
+                           value="{{ profile.github | default_if_none:'' }}"
+                           placeholder="공개하고 싶은 Github 프로필 주소">
+                </div>
+            </div>
+            <div class="detail-info shadow-lg ms-5" style="width:650px; border-radius: 2rem; padding: 2rem; position: relative">
+            <div class="p-3">
+                <div class="mb-3">
+                    <h4 class="mb-1">학력</h4>
+                    <div class="education-detail d-grid" style="grid-template-columns: 6rem 1fr">
+                        <img src="{% static 'img/school/'|add:profile.user.school|add:'.png' %}" style="width: 6rem; height: 6rem" alt="{{ profile.user.school }} 로고">
+                        <div class="ms-2 p-2">
+                            <h5>{{ profile.user.get_school_display }}</h5>
+                            <h5 class="mb-1">{{ profile.user.department }} 전공</h5>
+                            <select class="nice-select wide" name="school_status" required>
+                                {% for key, value in profile.user.STATUS_CHOICES %}
+                                    {% if key == '' %}
+                                    {% else %}
+                                        <option value="{{ key }}" {% if profile.user.school_status == key %}selected{% endif %}> {{ value }} </option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h4>관심 분야</h4>
+                    <small>관심 분야를 설정하세요! (예: 웹개발, 앱개발, 데이터 마이닝)</small>
+                    <div class="interests-tags mb-3">
+                        <input id="interest-search-field" type="text" class="tagator d-none" name="interest" placeholder="관심이 가는 분야를 적어주세요!" maxlength="30" value="{{ interest }}">
+                    </div>
+                    <h4 class="mt-4">개발 역량 (사용 가능 언어, 도구)</h4>
+                    <small>사용할 수 있는 언어나 도구를 설정하세요! (예: Tensorflow, C++)</small>
+                    <div class="stack-tags mb-3">
+                        <input id="stack-search-field" type="text" class="tagator d-none" name="stack" placeholder="사용할 수 있는 언어나 도구를 적어주세요!!" maxlength="30" value="{{ stack }}">
+                    </div>
+                </div>
+                <div>
+                    <h4>활동 사항</h4>
+                    <div class="d-flex flex-column">
+                        {% for activity in profile.activity.all %}
+                        <div class="extra-form-group">
+                            <button type="button" class="del-form" style="font-size: 1rem;">-</button>
+                            <div class="extra-form activity-form shadow p-4 added-form">
+                                <div class="form-input">
+                                    <label><span style="color:red">* </span>이름</label>
+                                    <input type="text" class="form-control shadow-none p-2" placeholder="ex) 프로젝트 이름, 동아리명" maxlength="20" value="{{ activity.name }}" name="activity-name_{{ forloop.counter0 }}">
+                                </div>
+                                <div class="form-input">
+                                    <label><span style="color:red">* </span>종류</label>
+                                    <div class="radio-list">
+                                        <div class="form-check">
+                                            <label class="form-check-label">동아리</label>
+
+                                            <input class="form-check-input shadow-none mt-0" type="radio" name="activity-type_{{ forloop.counter0 }}" value="0" style="transform:scale(0.7);" {% if activity.type == '0' %}checked{% endif %}>
+
+                                        </div>
+                                        <div class="form-check">
+                                            <label class="form-check-label">프로젝트</label>
+                                            <input class="form-check-input shadow-none mt-0" type="radio" name="activity-type_{{ forloop.counter0 }}" value="1" style="transform:scale(0.7);" {% if activity.type == '1' %}checked{% endif %}>
+                                        </div>
+                                        <div class="form-check">
+                                            <label class="form-check-label">기타</label>
+                                            <input class="form-check-input shadow-none mt-0" type="radio" name="activity-type_{{ forloop.counter0 }}" value="2" style="transform:scale(0.7);" {% if activity.type == '2' %}checked{% endif %}>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-input">
+                                    <label>활동 기간</label>
+                                    <div class="d-flex align-items-center responsive-form w-100">
+                                        <div class="grid-form w-100">
+                                            <input type="text" class="numeric-form form-control text-end shadow-none p-2" placeholder="년도" maxlength="4" value="{{ activity.start_date.year }}" name="activity-start-year_{{ forloop.counter0 }}">
+                                            <select class="nice-select wide" name="activity-start-month_{{ forloop.counter0 }}">
+                                                <option value="">월</option>
+                                                {% for i in "012345678901" %}
+                                                    {% if activity.start_date.month == forloop.counter %}
+                                                        <option value="{{ forloop.counter }}" selected>{{ forloop.counter }}</option>
+                                                    {% else %}
+                                                        <option value="{{ forloop.counter }}">{{ forloop.counter }}</option>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <span class="mx-1">~</span>
+                                        <div class="grid-form w-100">
+                                            <input type="text" class="numeric-form form-control text-end shadow-none p-2" placeholder="년도" maxlength="4" value="{{ activity.end_date.year }}" name="activity-end-year_{{ forloop.counter0 }}">
+                                            <select class="nice-select wide" name="activity-end-month_{{ forloop.counter0 }}">
+                                                <option value="">월</option>
+                                                {% for i in "012345678901" %}
+                                                    {% if activity.end_date.month == forloop.counter %}
+                                                        <option value="{{ forloop.counter }}" selected>{{ forloop.counter }}</option>
+                                                    {% else %}
+                                                        <option value="{{ forloop.counter }}">{{ forloop.counter }}</option>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-input">
+                                    <label><span style="color:red">* </span>역할</label>
+                                    <input type="text" class="form-control shadow-none p-2" placeholder="맡은 역할을 간략하게 적어주세요!" maxlength="20" value="{{ activity.role }}" name="activity-role_{{ forloop.counter0 }}">
+                                </div>
+                                <div class="form-input">
+                                    <label>활동 설명</label>
+                                    <textarea class="form-control shadow-none p-2" maxlength="100" name="activity-description_{{ forloop.counter0 }}">{{ activity.description }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <div class="extra-form-group">
+                            <button type="button" class="add-form" style="font-size: 1rem;">+</button>
+                            <div class="extra-form activity-form shadow p-4">
+                                <div class="form-input">
+                                    <label><span style="color:red">* </span>이름</label>
+                                    <input type="text" class="form-control shadow-none p-2" placeholder="ex) 프로젝트 이름, 동아리명" maxlength="20" name="activity-name_{{ profile.activity.all|length }}">
+                                </div>
+                                <div class="form-input">
+                                    <label><span style="color:red">* </span>종류</label>
+                                    <div class="radio-list">
+                                        <div class="form-check">
+                                            <label class="form-check-label">동아리</label>
+                                            <input class="form-check-input shadow-none mt-0" type="radio" name="activity-type_{{ profile.activity.all|length }}" value="0" style="transform:scale(0.7);" checked>
+                                        </div>
+                                        <div class="form-check">
+                                            <label class="form-check-label">프로젝트</label>
+                                            <input class="form-check-input shadow-none mt-0" type="radio" name="activity-type_{{ profile.activity.all|length }}" value="1" style="transform:scale(0.7);">
+                                        </div>
+                                        <div class="form-check">
+                                            <label class="form-check-label">기타</label>
+                                            <input class="form-check-input shadow-none mt-0" type="radio" name="activity-type_{{ profile.activity.all|length }}" value="2" style="transform:scale(0.7);">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-input">
+                                    <label>활동 기간</label>
+                                    <div class="d-flex align-items-center responsive-form w-100">
+                                        <div class="grid-form w-100">
+                                            <input type="text" class="numeric-form form-control text-end shadow-none p-2" placeholder="년도" maxlength="4" name="activity-start-year_{{ profile.activity.all|length }}">
+                                            <select class="nice-select wide" name="activity-start-month_{{ profile.activity.all|length }}">
+                                                {% for i in "0123456789012" %}
+                                                    {% if forloop.counter0 == 0 %}
+                                                        <option value ="">월</option>
+                                                    {% else %}
+                                                    <option value="{{ forloop.counter0 }}">{{ forloop.counter0 }}</option>
+                                                {% endif %}
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <span class="mx-1">~</span>
+                                        <div class="grid-form w-100">
+                                            <input type="text" class="numeric-form form-control text-end shadow-none p-2" placeholder="년도" maxlength="4" name="activity-end-year_{{ profile.activity.all|length }}">
+                                            <select class="nice-select wide" name="activity-end-month_{{ profile.activity.all|length }}">
+                                                {% for i in "0123456789012" %}
+                                                    {% if forloop.counter0 == 0 %}
+                                                        <option value ="">월</option>
+                                                    {% else %}
+                                                    <option value="{{ forloop.counter0 }}">{{ forloop.counter0 }}</option>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-input">
+                                    <label><span style="color:red">* </span>역할</label>
+                                    <input type="text" class="form-control shadow-none p-2" placeholder="맡은 역할을 간략하게 적어주세요!" maxlength="20" name="activity-role_{{ profile.activity.all|length }}">
+                                </div>
+                                <div class="form-input">
+                                    <label>활동 설명</label>
+                                    <textarea class="form-control shadow-none p-2" maxlength="100" name="activity-description_{{ profile.activity.all|length }}"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h4>외국어</h4>
+                    <div class="d-flex flex-column">
+                        {% for language in profile.language.all%}
+                        <div class="extra-form-group">
+                            <button type="button" class="del-form" style="font-size: 1rem;">-</button>
+                            <div class="extra-form lang-form shadow p-4 added-form">
+                                <div class="form-input">
+                                    <label>언어</label>
+                                    <div class="d-flex responsive-form w-100" style="gap: 10px;">
+                                        <input type="text" class="form-control text-end shadow-none p-2" placeholder="종류" value="{{ language.name }}" maxlength="10" name="language-name_{{ forloop.counter0 }}">
+                                        <select class="nice-select wide" name="language-ability_{{ forloop.counter0 }}">
+                                            <option value="0" {% if language.ability == '0' %}selected{% endif %}>초급 ( 기본적인 대화 가능 )</option>
+                                            <option value="1" {% if language.ability == '1' %}selected{% endif %}>중급 ( 사무적인 대화 가능 )</option>
+                                            <option value="2" {% if language.ability == '2' %}selected{% endif %}>고급 ( 자유자재 의사소통 )</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <div class="extra-form-group">
+                            <button type="button" class="add-form" style="font-size: 1rem;">+</button>
+                            <div class="extra-form lang-form shadow p-4">
+                                <div class="form-input">
+                                    <label>언어</label>
+                                    <div class="d-flex responsive-form w-100" style="gap: 10px;">
+                                        <input type="text" class="form-control text-end shadow-none p-2"placeholder="종류" maxlength="10" name="language-name_{{ profile.language.all|length }}">
+                                        <select class="nice-select wide" name="language-ability_{{ profile.language.all|length }}">
+                                            <option value="0">초급 ( 기본적인 대화 가능 )</option>
+                                            <option value="1">중급 ( 사무적인 대화 가능 )</option>
+                                            <option value="2">고급 ( 자유자재 의사소통 )</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4 class="mt-5">자격증</h4>
+                    <div class="d-flex flex-column">
+                            {% for certificate in profile.certificate.all %}
+                            <div class="extra-form-group">
+                                <button type="button" class="del-form" style="font-size: 1rem;">-</button>
+                                <div class="extra-form cert-form shadow p-4 added-form">
+                                    <div class="form-input">
+                                        <label><span style="color:red">* </span>자격증명</label>
+                                        <input type="text" class="form-control shadow-none p-2" value="{{ certificate.name }}" maxlength="30" name="certificate-name_{{ forloop.counter0 }}">
+                                    </div>
+                                    <div class="form-input">
+                                        <label>취득 날짜</label>
+                                        <div class="grid-form w-100">
+                                            <input type="text" class="numeric-form form-control text-end shadow-none p-2" placeholder="년도" value="{{ certificate.date.year }}" maxlength="4" name="certificate-year_{{ forloop.counter0 }}">
+                                            <select class="nice-select wide" name="certificate-month_{{ forloop.counter0 }}">
+                                                <option value="">월</option>
+                                                {% for i in "012345678901" %}
+                                                {% if certificate.date.month == forloop.counter %}
+                                                    <option value="{{ forloop.counter }}" selected>{{ forloop.counter }}</option>
+                                                {% else %}
+                                                    <option value="{{ forloop.counter }}">{{ forloop.counter }}</option>
+                                                {% endif %}
+                                            {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <div class="extra-form-group">
+                                <button type="button" class="add-form" style="font-size: 1rem;">+</button>
+                                <div class="extra-form cert-form shadow p-4">
+                                    <div class="form-input">
+                                        <label><span style="color:red">* </span>자격증명</label>
+                                        <input type="text" class="form-control shadow-none p-2" maxlength="30" name="certificate-name_{{ profile.certificate.all|length }}">
+                                    </div>
+                                    <div class="form-input">
+                                        <label>취득 날짜</label>
+                                        <div class="grid-form w-100">
+                                            <input type="text" class="numeric-form form-control text-end shadow-none p-2" placeholder="년도" maxlength="4" name="certificate-year_{{ profile.certificate.all|length }}">
+                                            <select class="nice-select wide" name="certificate-month_{{ profile.certificate.all|length }}">
+                                                {% for i in "0123456789012" %}
+                                                    {% if forloop.counter0 == 0 %}
+                                                        <option value ="">월</option>
+                                                    {% else %}
+                                                    <option value="{{ forloop.counter0 }}">{{ forloop.counter0 }}</option>
+                                                   {% endif %}
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                <div>
+                    <h4>수상실적</h4>
+                    <div class="d-flex flex-column">
+                        {% for award in profile.award.all %}
+                        <div class="extra-form-group">
+                            <button type="button" class="del-form" style="font-size: 1rem;">-</button>
+                            <div class="extra-form award-form shadow p-4 added-form">
+                                <div class="form-input">
+                                    <label><span style="color:red">* </span>대회명</label>
+                                    <input type="text" class="form-control shadow-none p-2" value="{{ award.name }}" maxlength="20" name="award-name_{{ forloop.counter0 }}">
+                                </div>
+                                <div class="form-input">
+                                    <label><span style="color:red">* </span>수상내역</label>
+                                    <input type="text" class="form-control shadow-none p-2" value="{{ award.result }}" maxlength="20" name="award-result_{{ forloop.counter0 }}">
+                                </div>
+                                <div class="form-input">
+                                    <label>날짜</label>
+                                    <div class="grid-form w-100">
+                                        <input type="text" class="numeric-form form-control text-end shadow-none p-2" placeholder="년도" value="{{ award.date.year }}" maxlength="4" name="award-year_{{ forloop.counter0 }}">
+                                        <select class="nice-select wide" name="award-month_{{ forloop.counter0 }}">
+                                            <option value="">월</option>
+                                            {% for i in "012345678901" %}
+                                                {% if award.date.month == forloop.counter %}
+                                                    <option value="{{ forloop.counter }}" selected>{{ forloop.counter }}</option>
+                                                {% else %}
+                                                    <option value="{{ forloop.counter }}">{{ forloop.counter }}</option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-input">
+                                    <label>주최 기관</label>
+                                    <input type="text" class="form-control shadow-none p-2" value="{{ award.organization }}" maxlength="20" name="award-organization_{{ forloop.counter0 }}">
+                                </div>
+                                <div class="form-input">
+                                    <label>활동 설명</label>
+                                    <textarea class="form-control shadow-none p-2" maxlength="100" name="award-description_{{ forloop.counter0 }}">{{ award.description }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <div class="extra-form-group">
+                            <button type="button" class="add-form" style="font-size: 1rem;">+</button>
+                            <div class="extra-form award-form shadow p-4">
+                                <div class="form-input">
+                                    <label><span style="color:red">* </span>대회명</label>
+                                    <input type="text" class="form-control shadow-none p-2" maxlength="20" name="award-name_{{ profile.award.all|length }}">
+                                </div>
+                                <div class="form-input">
+                                    <label><span style="color:red">* </span>수상내역</label>
+                                    <input type="text" class="form-control shadow-none p-2" maxlength="20" name="award-result_{{ profile.award.all|length }}">
+                                </div>
+                                <div class="form-input">
+                                    <label>날짜</label>
+                                    <div class="grid-form w-100">
+                                        <input type="text" class="numeric-form form-control text-end shadow-none p-2" placeholder="년도" maxlength="4" name="award-year_{{ profile.award.all|length }}">
+                                        <select class="nice-select wide" name="award-month_{{ profile.award.all|length }}">
+                                            {% for i in "0123456789012" %}
+                                                {% if forloop.counter0 == 0 %}
+                                                    <option value ="">월</option>
+                                                {% else %}
+                                                <option value="{{ forloop.counter0 }}">{{ forloop.counter0 }}</option>
+                                               {% endif %}
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-input">
+                                    <label>주최 기관</label>
+                                    <input type="text" class="form-control shadow-none p-2" maxlength="20" name="award-organization_{{ profile.award.all|length }}">
+                                </div>
+                                <div class="form-input">
+                                    <label>활동 설명</label>
+                                    <textarea class="form-control shadow-none p-2" maxlength="100" name="award-description_{{ profile.award.all|length }}"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h4>인턴기록</h4>
+                    <div class="d-flex flex-column">
+                        {% for intern in profile.intern.all %}
+                        <div class="extra-form-group">
+                            <button type="button" class="del-form" style="font-size: 1rem;">-</button>
+                            <div class="extra-form intern-form shadow p-4 added-form">
+                                <div class="form-input">
+                                    <label><span style="color:red">* </span>회사명</label>
+                                    <input type="text" class="form-control shadow-none p-2" value="{{ intern.name }}" maxlength="20" name="intern-name_{{ forloop.counter0 }}">
+                                </div>
+                                <div class="form-input">
+                                    <label>활동 기간</label>
+                                    <div class="d-flex align-items-center responsive-form w-100">
+                                        <div class="grid-form w-100">
+                                            <input type="text" class="numeric-form form-control text-end shadow-none p-2" placeholder="년도" value="{{ intern.start_date.year }}" maxlength="4" name="intern-start-year_{{ forloop.counter0 }}">
+                                            <select class="nice-select wide" name="intern-start-month_{{ forloop.counter0 }}">
+                                                <option value="">월</option>
+                                                {% for i in "012345678901" %}
+                                                    {% if intern.start_date.month == forloop.counter %}
+                                                        <option value="{{ forloop.counter }}" selected>{{ forloop.counter }}</option>
+                                                    {% else %}
+                                                        <option value="{{ forloop.counter }}">{{ forloop.counter }}</option>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <span class="mx-1">~</span>
+                                        <div class="grid-form w-100">
+                                            <input type="text" class="numeric-form form-control text-end shadow-none p-2" placeholder="년도" value="{{ intern.end_date.year }}" maxlength="4" name="intern-end-year_{{ forloop.counter0 }}">
+                                            <select class="nice-select wide" name="intern-end-month_{{ forloop.counter0 }}">
+                                                <option value="">월</option>
+                                                {% for i in "012345678901" %}
+                                                    {% if intern.end_date.month == forloop.counter %}
+                                                        <option value="{{ forloop.counter }}" selected>{{ forloop.counter }}</option>
+                                                    {% else %}
+                                                        <option value="{{ forloop.counter }}">{{ forloop.counter }}</option>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-input">
+                                    <label><span style="color:red">* </span>역할</label>
+                                    <input type="text" class="form-control shadow-none p-2" placeholder="맡은 역할을 간략하게 적어주세요!" value="{{ intern.role }}" maxlength="20" name="intern-role_{{ forloop.counter0 }}">
+                                </div>
+                                <div class="form-input">
+                                    <label>활동 설명</label>
+                                    <textarea class="form-control shadow-none p-2" maxlength="100" name="intern-description_{{ forloop.counter0 }}">{{ intern.description }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <div class="extra-form-group">
+                            <button type="button" class="add-form" style="font-size: 1rem;">+</button>
+                            <div class="extra-form intern-form shadow p-4">
+                                <div class="form-input">
+                                    <label><span style="color:red">* </span>회사명</label>
+                                    <input type="text" class="form-control shadow-none p-2" maxlength="20" name="intern-name_{{ profile.intern.all|length }}">
+                                </div>
+                                <div class="form-input">
+                                    <label>활동 기간</label>
+                                    <div class="d-flex align-items-center responsive-form w-100">
+                                        <div class="grid-form w-100">
+                                            <input type="text" class="numeric-form form-control text-end shadow-none p-2" placeholder="년도" maxlength="4" name="intern-start-year_{{ profile.intern.all|length }}">
+                                            <select class="nice-select wide" name="intern-start-month_{{ profile.intern.all|length }}">
+                                                {% for i in "0123456789012" %}
+                                                    {% if forloop.counter0 == 0 %}
+                                                        <option value ="">월</option>
+                                                    {% else %}
+                                                    <option value="{{ forloop.counter0 }}">{{ forloop.counter0 }}</option>
+                                                {% endif %}
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <span class="mx-1">~</span>
+                                        <div class="grid-form w-100">
+                                            <input type="text" class="numeric-form form-control text-end shadow-none p-2" placeholder="년도" maxlength="4" name="intern-end-year_{{ profile.intern.all|length }}">
+                                            <select class="nice-select wide" name="intern-end-month_{{ profile.intern.all|length }}">
+                                                {% for i in "0123456789012" %}
+                                                    {% if forloop.counter0 == 0 %}
+                                                        <option value ="">월</option>
+                                                    {% else %}
+                                                    <option value="{{ forloop.counter0 }}">{{ forloop.counter0 }}</option>
+                                                {% endif %}
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-input">
+                                    <label><span style="color:red">* </span>역할</label>
+                                    <input type="text" class="form-control shadow-none p-2" placeholder="맡은 역할을 간략하게 적어주세요!" maxlength="20" name="intern-role_{{ profile.intern.all|length }}">
+                                </div>
+                                <div class="form-input">
+                                    <label>활동 설명</label>
+                                    <textarea class="form-control shadow-none p-2" maxlength="100" name="intern-description_{{ profile.intern.all|length }}"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center" id="profile-Btn">
+                    <button id="editBtn" class="mx-3 my-1">수정하기</button>
+                    <button id="cancelBtn" class="mx-3 my-1" type="button" onclick="window.history.back();">취소</button>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}

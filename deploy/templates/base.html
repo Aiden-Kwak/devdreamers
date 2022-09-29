@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+{% include 'head.html' %}
+{% load static %}
+{% load compress %}
+
+{% compress css file extra %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/snippets/header.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/snippets/footer.css' %}">
+
+{% block css %}
+{% endblock %}
+
+{% endcompress %}
+
+{% compress js file extra %}
+
+{% block script %}
+{% endblock %}
+
+{% endcompress %}
+
+{% block cdnfile %}
+{% endblock %}
+
+{% include "form_errors.html" %}
+
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<body>
+    <div style="background:#f7f9fb;" class="shadow">
+        {% include 'header.html' %}
+    </div>
+    <div class="sub_body">
+        <div class="wrap-loading d-none">
+            <div><img src="{% static 'img/loading.svg' %}" /></div>
+        </div>
+
+        {% block content %}
+        {% endblock %}
+    </div>
+    {% include 'footer.html' %}
+
+</body>
+</html>

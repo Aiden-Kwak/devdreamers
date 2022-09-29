@@ -1,0 +1,51 @@
+textarea:hover, textarea:focus {
+    outline:none;
+}
+.comment-date {
+    font-size: 1rem;
+}
+.delete-comment-team, .delete-comment-contest {
+    cursor: pointer;
+}
+
+.post-comment-team, .post-comment-contest {
+    outline: none;
+    border: none;
+    background-color:inherit;
+    color: #F07489;
+    position: absolute;
+    right: 15px;
+    bottom: 10px;
+}
+.comment-form textarea::-webkit-scrollbar {
+  width: 6px;
+}
+.comment-form textarea::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+.comment-form textarea::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background-color: gray;
+}
+.comment-form textarea::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+}
+
+.comment p {
+    white-space: normal;
+    word-break: break-all;
+    margin-bottom: .25rem !important
+}
+
+@media screen and (max-width: 767px) {
+    .comment-image {
+        display:none;
+    }
+    .comment-date {
+        font-size:.95rem;
+    }
+    .delete-comment-team .delete-comment-contest {
+        font-size: 1rem;
+    }
+}

@@ -1,0 +1,30 @@
+{% load static %}
+<div class="container-md d-flex flex-column shadow px-4 py-3 mx-auto contest-filter" style="border-radius: 1rem;">
+    <div class="filter-container d-flex align-items-center p-2">
+        
+        <input type="search" id="title-filter" placeholder="공모전 검색"
+                class="form-control shadow-none" style="padding:.5rem;">
+        <input type="search" id="host-filter" placeholder="주최기관 검색"
+                class="form-control shadow-none" style="padding:.5rem;">
+        <select id="category-filter" multiple="multiple" style="display:none;">
+                    <option>SW창업</option>
+                    <option>웹/앱 개발</option>
+                    <option>게임</option>
+                    <option>보안</option>
+                    <option>AI/빅데이터</option>
+                    <option>알고리즘</option>
+                    <option>로봇/자율주행</option>
+                    <option>AR/VR</option>
+                    <option>기타</option>
+        </select>
+    </div>
+    <div class="filter-tags d-flex align-items-center" style="flex-wrap: wrap;">
+        <div class="category-filter-tag">
+            <ul class="tags-container"></ul>
+        </div>
+        <div class="type-filter-tag">
+            <ul class="tags-container"></ul>
+        </div>
+        <span id="initBtn" class="ms-2" style="font-size: 1rem; color: #F07489; display:none;">조건 초기화</span>
+    </div>
+</div>

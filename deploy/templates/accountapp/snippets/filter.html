@@ -1,0 +1,39 @@
+<div class="container d-flex flex-column shadow px-4 py-3 mb-5 mx-auto" style="border-radius: 1rem;">
+    <div class="filter-container d-flex align-items-center p-2">
+        <div>
+            <input id="interest-filter" type="text" class="tagator d-none" placeholder="관심분야" maxlength="30">
+        </div>
+        <div>
+            <input id="stack-filter" type="text" class="tagator d-none" placeholder="개발역량" maxlength="30">
+        </div>
+        <select id="status-filter" multiple="multiple" style="display:none;">
+            <option>휴식 중</option>
+            <option>팀 찾는 중</option>
+            <option>팀 참가 중</option>
+            <option>기타</option>
+        </select>
+        <select id="type-filter" multiple="multiple" style="display:none;">
+            <option>개발자</option>
+            <option>디자이너</option>
+            <option>기획자</option>
+        </select>
+        {% if user.is_authenticated %}
+        <a href="{% url 'team:create' %}">
+            <button type="button" class="text-white border-0">
+                모집글작성
+            </button>
+        </a>
+        {% endif %}
+    </div>
+    <div class="filter-tags d-flex align-items-center" style="flex-wrap: wrap;">
+        <div class="interest-filter-tag"></div>
+        <div class="stack-filter-tag"></div>
+        <div class="status-filter-tag">
+            <ul class="tags-container"></ul>
+        </div>
+        <div class="type-filter-tag">
+            <ul class="tags-container"></ul>
+        </div>
+        <span id="initBtn" class="ms-2" style="font-size: 1rem; color: #F07489; display:none;">조건 초기화</span>
+    </div>
+</div>

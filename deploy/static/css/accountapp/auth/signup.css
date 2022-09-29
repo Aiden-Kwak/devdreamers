@@ -1,0 +1,21 @@
+li {
+    font-size: .8rem;
+    color: #6c757d;
+    margin-top: .25rem;
+    list-style: disc;
+}
+
+#myInput {
+    border-radius: 0.2rem;
+    width: 150px;
+    margin-left: 1.5rem;
+}
+
+#department {
+    width: 150px;
+}
+
+.autocomplete-items {
+    padding-left: 2rem;
+    font-size: 1rem;
+}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<h1>Delete team</h1>
+<form method="post" class="post-form" action="{% url 'team:delete' pk=target_team.pk %}  ">
+    {% csrf_token %}
+    <div class="mb-4">
+        <h4>Delete team : {{ team_list.title }}</h4>
+    </div>
+    <input type="submit" class="btn btn-danger rounded-pill col-6 mt-3">
+</form>
+
+{% endblock %}

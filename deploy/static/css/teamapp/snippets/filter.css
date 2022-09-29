@@ -1,0 +1,64 @@
+.filter-container {
+    gap: 10px;
+}
+.filter-container > div, .filter-container > input {
+    width: 100%;
+}
+.filter-container > a > button{
+    height: 42px;
+    width: 7rem;
+    font-size: 1rem;
+    background-color: #F07489;
+    border-radius: 1rem;
+}
+.filter-tags .tags-container .tag-item {
+    margin-top: 0;
+    margin-bottom: .3rem;
+}
+.filter-tags .tags-container {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+.type-filter-tag  > ul > .tag-item {
+    margin: 0.3rem .3rem 0 .3rem;
+    padding: 0.3rem;
+    font-size: 1rem;
+    color: white;
+    background-color: #F07489;
+    border-radius: 5px;
+}
+
+.category-filter-tag > ul > .tag-item {
+    margin: 0.3rem .3rem 0 .3rem;
+    padding: 0.3rem;
+    font-size: 1rem;
+    color: white;
+    background-color: #4B4B68;
+    border-radius: 5px;
+}
+
+.select-item-remove {
+    margin: 0.5rem 0.2rem 0.5rem 0.5rem;
+    color: inherit;
+    cursor: pointer;
+}
+
+.select-item-remove:hover {
+    color: inherit;
+}
+
+#initBtn {
+    cursor: pointer;
+}
+
+@media screen and (max-width: 991px) {
+    .filter-container {
+        gap: 5px;
+        flex-direction:column;
+    }
+    .filter-container > a, .filter-container > a > button{
+        width: 100%;
+        margin-top: .5rem;
+    }
+}

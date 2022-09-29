@@ -1,0 +1,131 @@
+{% load static %}
+<h2 class="mt-5 ms-5">
+    <span style="color: #F07489">DEV </span><span style="color: #000000">톡</span>
+</h2>
+
+<div id="landing-chat" class="position-relative">
+    <div id="chat-box" class="pt-3 ps-2 scrollbar">
+        {% for msg in message %}
+        {% if msg.writer != user %}
+
+        <div class="d-flex mb-4">
+            <div class="shadow me-2" id="chat-profile" style="background-image: url({{ msg.writer.profile.image.url }});"></div>
+            <div class="mt-2 w-100">
+                <span>{{msg.writer.profile.nickname}}</span>
+                <div class="text-start msg">
+                    <span>{{msg.chat}}</span>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="my-3">
+            <div class="text-start msg2 ms-auto">
+                <span>{{msg.chat}}</span>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+    <div id="landing-chat-input" class="position-absolute w-100 p-1" style="bottom: 0;">
+        <input id="landing-input-area" type="text" placeholder="메세지를 입력하세요" maxlength="300" required>
+        <button class="me-3" id="landing-chat-send"><i class="fas fa-paper-plane"></i></button>
+    </div>
+</div>
+<script src="{% static 'js/chat.js' %}"></script>
+
+<style>
+.msg {
+    background-color: rgba(240, 116, 137, 0.2);
+    height: 2rem;
+    line-height: 2rem;
+    word-break:break-all;
+    max-width: 45%;
+    padding: 0 1rem 0 1rem;
+    display: table;
+    border-radius: 30px;
+}
+.msg span {
+    display: table-row;
+}
+.msg2 {
+    background-color: rgba(68, 72, 87, 0.2);
+    height: 2rem;
+    line-height: 2rem;
+    word-break:break-all;
+    max-width: 45%;
+    padding: 0 1rem 0 1rem;
+    display: table;
+    border-radius: 30px;
+}
+.msg2 span {
+    display: table-row;
+}
+#chat-profile {
+    border-radius: 1rem;
+    background-size:cover;
+    width:4rem;
+    height: 4rem;
+    flex-shrink: 0;
+}
+
+
+#landing-chat {
+    margin: 0 auto;
+    border: 2px solid #F07489;
+    box-sizing: border-box;
+    width: 98%;
+    height: 30rem;
+    margin-bottom: 3rem;
+    border-radius: 20px;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+}
+
+#landing-chat-input {
+    border-top: 2px solid #F07489;
+}
+
+#landing-chat-input > input {
+    all: unset;
+    margin-left: 1.2rem;
+    width: 80%;
+}
+#landing-chat-input > button {
+    all: unset;
+    float: right;
+}
+
+#chat-box {
+    margin-top: 1rem;
+    height: 89%;
+    overflow-y: scroll;
+    font-size: 1rem;
+}
+#chat-box::-webkit-scrollbar {
+  width: 5px;
+
+}
+#chat-box::-webkit-scrollbar-track {
+  background-color: transparent;
+  margin-top: 1rem;
+  margin-right: 1rem;
+}
+#chat-box::-webkit-scrollbar-thumb {
+  background-color: #F07489;
+}
+#chat-box::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+}
+
+@media (max-width: 575px) {
+    #landing-chat {
+        width: 93%;
+    }
+}
+@media (max-width: 991px) {
+    .msg, .msg2 {
+        max-width: 80%;
+    }
+}
+
+</style>

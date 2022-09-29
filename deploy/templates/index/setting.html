@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="w-100" style="height: 200px;">
+</div>
+<div class="text-center">
+    <div class="shadow-lg mx-auto mb-4" style="border-radius: 2rem;  background-size:cover;
+    background-image: url({{ image.url }}); width: 180px; height: 180px; margin-top: -90px;"></div>
+    <h1 class="mb-4 text-center">{{ nickname }}</h1>
+</div>
+<div class="container detail-container">
+    <hr class="container">
+    <div class="text-center">
+        <a class="pb-2" href="{% url 'account:setting' %}" style="color: #F07489; border-bottom: 2px solid;">계정설정</a>
+    </div>
+    <div class="d-flex justify-content-center my-5">
+        <div class="shadow-lg" style="width: 650px; border-radius: 2rem; padding: 3rem;">
+            <div class="setting-container">
+                <a href="{% url 'account:setting_nickname' %}">
+                    <h4>닉네임 변경</h4>
+                    <h6 style="color: #808080;">닉네임을 변경합니다</h6>
+                </a>
+                <hr style="color: gray; border: 1px solid gray;">
+                <a href="{% url 'account:setting_password' %}">
+                    <h4>비밀번호 변경</h4>
+                    <h6 style="color: #808080;">비밀번호를 변경합니다</h6>
+                </a>
+                <hr style="color: gray; border: 1px solid gray;">
+                <a href="{% url 'account:delete' %}">
+                    <h4>회원 탈퇴</h4>
+                    <h6 style="color: #808080;">모든 계정 정보를 삭제합니다</h6>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/autocomplete.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/card-list.css' %}">
+    <link rel="stylesheet" href="{% static 'css/sumoselect.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/accountapp/snippets/filter.css' %}">
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'js/jquery.sumoselect.js' %}"></script>
+    <script src="{% static 'js/autocomplete-tag.js' %}"></script>
+    <script src="{% static 'js/accountapp/profile/profile-list-filter.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-center justify-content-center list-header" style="margin: 75px 0px;">
+    <div>
+        <h1>당신의 팀원을 쉽고 빠르게 찾는 방법</h1>
+        <p class="mb-0">새로운 도전, 꿈꾸는 개발자들과 함께</p>
+    </div>
+    <img src="{% static 'img/logo.svg' %}" style="width:180px;">
+</div>
+
+{% include 'accountapp/snippets/filter.html' %}
+
+{% if profile_list %}
+    <div class="card-container container p-0 mb-5">
+        {% include 'accountapp/snippets/card.html' with profile_list=profile_list %}
+    </div>
+    <p class="my-4 text-center"><button id="loadMore" class="btn btn-sm shadow-none" style="background-color: #4B4B68; color: white">더 불러오기</button></p>
+{% else %}
+    <div class="container p-0" style="margin-bottom: 100px;">
+        <h3 class="text-center">아직 등록된 팀이 없습니다.</h3>
+    </div>
+{% endif %}
+
+{% endblock %}

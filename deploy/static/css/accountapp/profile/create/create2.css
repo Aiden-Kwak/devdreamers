@@ -1,0 +1,138 @@
+.tab {
+  display: none;
+}
+
+input[name="profile_type"] {
+    display: none;
+}
+input[name="profile_type"] + label {
+    width: 100%;
+    border: 1px solid #ced4da;
+    border-radius: .5rem;
+    color:grey;
+    cursor: pointer;
+}
+input[name='profile_type']:checked + label {
+    width: 100%;
+    border: 1px solid #F07489;
+    border-radius: .5rem;
+    color: #F07489;
+}
+.select-type {
+      flex: 1 1 0;
+      text-align :center;
+}
+.select-type-container {
+    display: flex;
+    gap : 10px;
+    justify-content : space-evenly;
+}
+
+   label, span {
+    font-size: 1.05rem;
+   }
+
+  .extra-form {
+    width: 500px;
+    border-radius: 1rem;
+  }
+
+  .extra-form-group {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 1.5rem;
+  }
+
+  .form-container {
+    width: 680px;
+  }
+
+  .radio-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 10px;
+    justify-items: center;
+  }
+
+  .form-input {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+    align-items: center;
+  }
+
+  .btn-list {
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  .grid-form {
+    display: grid;
+    column-gap: 5px;
+    grid-template-columns: 2fr 1fr;
+}
+
+  @media screen and (max-width: 575px) {
+    .form-container{
+        width: 100%;
+        margin: 0;
+    }
+    .add-form, .del-form{
+        margin-bottom: 1rem;
+    }
+    .extra-form-group {
+        flex-direction: column;
+        margin-top: 1rem;
+    }
+    .extra-form {
+        width: 100%;
+    }
+    .radio-list {
+        display: flex;
+        flex-direction: column;
+    }
+    .form-input {
+        display: flex;
+        flex-direction: column;
+        align-items:flex-start;
+        justify-content: flex-start;
+        align-content:flex-start;
+    }
+    .btn-list {
+        flex-direction: column;
+        align-items: center;
+    }
+    #prevBtn {
+        margin-bottom: 1rem;
+        width: 100%;
+    }
+    #nextBtn {
+        width: 100%;
+    }
+    div > p, label {
+        font-size: 1rem;
+    }
+    h3, h4 {
+        font-size: 1.2rem;
+    }
+    small {
+        font-size: .9rem;
+    }
+    .tag-input, .form-control {
+        font-size: .85rem;
+    }
+    .responsive-form {
+        flex-direction: column;
+    }
+    .responsive-form > input {
+        max-width: 100%;
+    }
+    div > span {
+        font-size: .9rem;
+    }
+    button {
+        font-size: 1rem;
+    }
+  }

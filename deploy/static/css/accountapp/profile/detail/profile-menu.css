@@ -1,0 +1,22 @@
+@media screen and (max-width: 575px) {
+
+    #profile-menu {
+        font-size: .9rem;
+    }
+
+    div > h4 {
+        font-size: 1.1rem;
+    }
+
+    small {
+        font-size: .85rem;
+    }
+}
+
+#team_btn, #contest_btn {
+    outline: none;
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    font-size: 1rem;
+}

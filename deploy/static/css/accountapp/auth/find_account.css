@@ -1,0 +1,89 @@
+.btn-default {
+    outline: none;
+    border: none;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input {
+    border: none;
+    border-bottom: black 1px solid;
+    padding: .5rem;
+    outline: none;
+    text-align: center;
+    margin: 1rem 0 2rem 0;
+}
+
+.main-container {
+    display: flex;
+    gap: 0 2rem;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5rem;
+}
+
+.two-box {
+    width: 350px;
+    height: 290px;
+    display: inline-block;
+    padding-top: 4.5rem;
+}
+
+.two-box > button {
+    margin-top: 3rem;
+    color: #2d3f51;
+    background-color: transparent;
+    font-size: 2rem;
+}
+
+.divider {
+    border-left: #2d3f51 5px solid;
+    height: 180px;
+}
+
+.divider-mobile {
+    display: none;
+    border-top: #2d3f51 5px solid;
+    width: 90%
+}
+
+.idfinder, .pwfinder {
+    width: 300px;
+    height: 300px;
+    margin-top: 10rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.send-btn {
+    color: white;
+    background-color: #F07489;
+    width: 10rem;
+    height: 2.3rem;
+    text-align: center;
+    border-radius: 10px;
+    font-size: 1rem;
+}
+
+.go-back {
+    margin-top: 3.5rem;
+    color: #2d3f51;
+    background-color: transparent;
+    font-size: 1.2rem;
+}
+
+@media screen and (max-width: 991px) {
+    .main-container {
+        flex-direction: column;
+    }
+    .divider {
+        display: none;
+    }
+    .divider-mobile {
+        display: block;
+    }
+}

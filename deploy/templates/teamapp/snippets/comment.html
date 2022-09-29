@@ -1,0 +1,28 @@
+<div class="d-flex p-3 mb-3 shadow" style="border-radius: 1rem;" >
+    <img src="{{comment.user.profile.image.url}}" class="shadow comment-image me-3" style="width: 80px; height: 80px; border-radius: 1rem; object-fit: cover">
+    <div class="w-100">
+        <div class="d-flex mb-2 justify-content-between">
+            <div class="comment-container d-flex align-items-center">
+                <a href="{% url 'account:detail' slug=comment.user.profile.nickname %}">
+                    {% if team.writer == comment.user %}
+                        <p class="py-1 px-2" style="color: white; background-color:#F07489; border-radius:.5rem;">작성자</p>
+                    {% else %}
+                        <p class="py-1 px-2" style="color: white; background-color:#C4C4C4; border-radius:.5rem;">{{ comment.user.profile.nickname }}</p>
+                    {% endif %}
+                </a>
+                <div class="ms-3">
+                    <p class="comment-date">
+                    {{ comment.show_date }}
+                    </p>
+                </div>
+            </div>
+            {% if request.user == comment.user %}
+                <p class="delete-comment-team py-1 px-2 text-secondary" data-id="{{comment.id}}">삭제</p>
+            {% endif %}
+        </div>
+        <div class="comment">
+            {{ comment.get_content_markdown | safe }}
+        </div>
+
+    </div>
+</div>

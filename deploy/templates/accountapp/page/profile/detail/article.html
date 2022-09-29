@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/card-list.css' %}">
+<link rel="stylesheet" href="{% static 'css/accountapp/profile/detail/profile-menu.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="w-100" style="height: 200px;">
+</div>
+<div class="text-center mb-4">
+    <div class="shadow-lg mx-auto mb-4" style="border-radius: 2rem;  background-size:cover;
+    background-image: url({{ user.profile.image.url }}); width: 180px; height: 180px; margin-top: -90px;"></div>
+    <h1 class="text-center">{{ user.profile.nickname }}</h1>
+    <small class="text-center text-secondary">최근 로그인 : {{ user.show_date }}</small>
+</div>
+<div class="container detail-container">
+    <hr class="container">
+    <div class="text-center" id="profile-menu">
+        <a href="{% url 'account:detail' slug=user.profile.nickname %}" class="pb-2">프로필</a>
+        <a href="{% url 'account:article' slug=user.profile.nickname %}" class="ms-4 pb-2" style="color: #F07489; border-bottom: 2px solid;">모집글</a>
+        {% if user == request.user %}
+            <a href="{% url 'account:subscribe' %}" class="ms-4">즐겨찾기</a>
+            <a href="{% url 'account:update' %}" class="ms-4 pb-2">프로필 설정</a>
+        {% endif %}
+    </div>
+    <div class="my-5">
+        {% if user == request.user %}
+            <h3 class="mb-4 text-center">내가 작성한 팀 모집글 목록</h3>
+        {% else %}
+            <h3 class="mb-4 text-center">{{ user.profile.nickname }}님이 작성한 팀 모집글 목록</h3>
+        {% endif %}
+        {% if team_list %}
+            <p class="text-center"><small>{{ team_list | length }}개의 팀 모집글을 작성하셨습니다</small></p>
+            <div class="card-container container p-0 mb-5">
+                {% include 'teamapp/snippets/card.html' with team_list=team_list %}
+            </div>
+        {% else %}
+            <h5 class="text-center">작성한 글이 없네요....</h5>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

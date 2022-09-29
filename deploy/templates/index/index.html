@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+{% include 'head.html' %}
+{% load static %}
+{% load compress %}
+
+{% compress css file extra %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/index/landing.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/snippets/header.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/snippets/footer.css' %}">
+<link rel="stylesheet" href="{% static 'css/card-list.css' %}">
+{% endcompress %}
+
+{% compress js file extra %}
+<script src="{% static 'js/index/landing.js' %}"></script>
+{% endcompress %}
+<body>
+    {% include 'index/landing.html' %}
+</body>
+</html>

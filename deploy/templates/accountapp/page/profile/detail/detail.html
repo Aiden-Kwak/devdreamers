@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/accountapp/profile/detail/detail.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="w-100" style="height: 200px;">
+</div>
+<div class="text-center mb-4">
+    <div class="shadow-lg mx-auto mb-4" style="border-radius: 2rem;  background-size:cover;
+    background-image: url({{ user.profile.image.url }}); width: 180px; height: 180px; margin-top: -90px;"></div>
+    <h1 class="text-center">{{ user.profile.nickname }}</h1>
+    <small class="text-center text-secondary">
+        {% if visible %}
+            최근 로그인 : {{ user.show_date }}
+        {% endif %}
+    </small>
+    <div class="self_intro_edit mt-4" style="display: none">
+        <textarea class="self_intro_textarea" placeholder="자기소개를 입력해주세요">{{ user.profile.self_intro }}</textarea>
+        <button class="mx-3 my-1 self_intro_submit">수정하기</button>
+    </div>
+    
+    <div class="self_intro_view mt-4">
+        <div class="text-center self-intro text-secondary">
+            {% if user.profile.self_intro %}
+                {{ user.profile.self_intro | linebreaks }}
+            {% else %}
+            등록된 자기소개가 없습니다
+            {% endif %}
+        </div>
+        {% if user == request.user %}            
+            <button class="self_intro_btn" onclick="show_edit()">수정하기</button>
+        {% endif %}
+    </div>
+</div>
+
+<div class="container detail-container">
+    <hr class="container">
+    <div class="text-center" id="profile-menu">
+        <a href="{% url 'account:detail' slug=user.profile.nickname %}" class="pb-2" style="color: #F07489; border-bottom: 2px solid;">프로필</a>
+        {% if visible %}
+            <a href="{% url 'account:article' slug=user.profile.nickname %}" class="ms-4 pb-2">모집글</a>
+        {% endif %}
+        {% if user == request.user %}
+            <a href="{% url 'account:subscribe' %}" class="ms-4 pb-2">즐겨찾기</a>
+            <a href="{% url 'account:update' %}" class="ms-4 pb-2">프로필 설정</a>
+        {% endif %}
+    </div>
+    <div class="profile-info d-flex justify-content-center my-5">
+        {% include 'accountapp/snippets/profile_info.html' with target_user=user %}
+    </div>
+</div>
+
+<script>
+    const self_intro_view = document.querySelector(".self_intro_view");
+    const self_intro_edit = document.querySelector(".self_intro_edit");
+    
+    const show_edit = () => {
+        self_intro_edit.style.display = "block"
+        self_intro_view.style.display = "none"
+    }
+    
+</script>
+{% endblock %}

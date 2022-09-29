@@ -1,0 +1,41 @@
+
+{% load static %}
+
+<!--      onclick의 function은 ajax.js에서 확인       -->
+<a href="{% url 'contest:list' %}"
+            style="{% if '/contest/' in request.path %}color:#F07489;border-bottom:2px solid;{% endif %}"
+            class="{% if contest_notify %}notify-circle{% endif %}">
+    대회 및 공모전
+</a>
+
+<script type="text/javascript">
+    const checkNotificationURL = "{% url 'notificationapp:contest-notify-check'%}"
+</script>
+
+<style>
+
+.notify-circle:after {
+    content: "";
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background-color: #F07489;
+    border-radius: 50%;
+    -webkit-animation:blink 1s ease-in-out infinite alternate;
+    -moz-animation:blink 1s ease-in-out infinite alternate;
+    animation:blink 1s ease-in-out infinite alternate;
+}
+-webkit-keyframes blink{
+    0% {opacity:0;}
+    100% {opacity:1;}
+}
+@-moz-keyframes blink{
+    0% {opacity:0;}
+    100% {opacity:1;}
+}
+@keyframes blink{
+    0% {opacity:0;}
+    100% {opacity:1;}
+}
+</style>
+

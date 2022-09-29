@@ -1,0 +1,40 @@
+.image-upload-form {
+    display: flex;
+    align-items: center;
+}
+
+.image-upload-form > div {
+    margin-right: 3rem;
+}
+
+
+@media screen and (max-width: 575px) {
+    .image-upload-form {
+        flex-direction: column;
+        text-align:center;
+    }
+    .image-upload-form > div {
+        margin-right: 0;
+    }
+    .image-upload-form > div > div {
+        margin-bottom: 1rem;
+    }
+    .header {
+        font-size: 1rem;
+    }
+    div > h3,h4 {
+        font-size: 1.2rem;
+    }
+    div > p,span {
+        font-size: .9rem;
+    }
+    button {
+        font-size: 1rem;
+    }
+    ul>li {
+        font-size: .85rem;
+    }
+    .form-control {
+        font-size: .85rem;
+    }
+}

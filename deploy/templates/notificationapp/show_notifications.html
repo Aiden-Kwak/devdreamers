@@ -1,0 +1,123 @@
+{% load static %}
+
+<!--      onclick의 function은 ajax.js에서 확인       -->
+<div class="dropdown">
+          <a class="dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+              <div id="noti-box" class="text-center rounded" onclick="checkNotification(`{% url 'notificationapp:notification-check'%}`)">{{noti_count}}</div>
+          </a>
+
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              {% if no_notifications == 0 %}
+              <li><a class="dropdown-item">아직 등록된 알림이 없습니다.</a></li>
+              {% endif %}
+<!--      전체공지        -->
+              {% if announcements %}
+              {% for announce in announcements %}
+              <li class="d-flex mb-1">
+                  <div class="d-flex">
+                      <a class="dropdown-item" href="{{announce.announcement_link}}">
+                          <span id="announce">꿈꾸는 개발자들 <span style="color: #F07489;">공지!</span>&nbsp<span style="font-size: .8rem;">({{ announce.date | date:"Y년 m월 d일 H시 i분"}})</span> <br>{{ announce.announcement|safe }}</span>
+                          {% if announce.user_has_seen == False %}
+                          <span class="noti-new rounded-pill text-center">new</span>
+                          {% endif %}
+                      </a>
+                  </div>
+                  <div class="dropdown-item-close d-flex align-items-center ms-auto me-2" style="font-size: 1.7rem; cursor: pointer;" onclick="removeNotification(`{% url 'notificationapp:announcement-delete' announce.pk %}`, `{{ request.path }}`)">&times;</div>
+              </li>
+              {% endfor %}
+              {% endif %}
+<!--      END 전체공지        -->
+              {% if notifications %}
+              {% for notification in notifications %}
+                    {% if notification.notification_type == 0 %}
+                    <li class="d-flex mb-1">
+                        <div class="d-flex">
+                            <a class="dropdown-item" href="{{notification.announcement_link}}">
+						    <span>{{ notification.announcement|safe }}</span>
+                            {% if notification.user_has_seen == False %}
+                                <span class="noti-new rounded-pill text-center">new</span>
+                            {% endif %}
+                            </a>
+                        </div>
+                        <div class="dropdown-item-close d-flex align-items-center ms-auto me-2" style="font-size: 1.7rem; cursor: pointer;" onclick="removeNotification(`{% url 'notificationapp:notification-delete' notification.pk %}`, `{{ request.path }}`)">&times;</div>
+                    </li>
+                    {% elif notification.notification_type == 1 %}
+                    <li class="d-flex">
+                        <div class="d-flex">
+                            <a class="dropdown-item" href="{% url 'notificationapp:post-notification'  post_pk=notification.post.pk%}">
+						    <p><span style="color:#F07489;">
+                                {{ notification.from_user.profile.nickname }}</span>님이 <span style="color:#F07489;">{{notification.post.title}}</span>에 댓글을 남겼습니다.
+                                {% if notification.user_has_seen == False %}
+                                <span class="noti-new rounded-pill text-center">new</span>
+                                {% endif %}
+                            </p>
+						    <p class="m-0" style="font-size:.85rem; color: #6c757d">{{ notification.text_preview}}</p></a>
+                        </div>
+                        <div class="dropdown-item-close d-flex align-items-center ms-auto me-2" style="font-size: 1.7rem; cursor: pointer;" onclick="removeNotification(`{% url 'notificationapp:notification-delete' notification.pk %}`, `{{ request.path }}`)">&times;</div>
+                    </li>
+                    {% elif notification.notification_type == 2 %}
+                    <li><a class="dropdown-item" href="#">미지원기능</a></li>
+                    {% endif %}
+              {% endfor %}
+              {% endif %}
+          </ul>
+
+</div>
+
+<style>
+    .dropdown-toggle::after {
+        display:none;
+    }
+    .dropdown-menu {
+        max-height: 300px;
+        overflow-y: auto;
+        background-color: #F7F9FB;
+        border-radius: 1.5rem;
+        border: none;
+        box-shadow: 10px 10px 4px rgba(0, 0, 0, 0.25);
+        padding: 1rem 1rem .5rem 1.5rem;
+    }
+    #noti-box {
+        line-height: 1.8rem;
+        width: 1.5rem;
+        height: 1.5rem;
+        background-color: #F07489;
+        color: white;
+    }
+    .noti-new {
+        padding: .2rem;
+        background-color: #F07489;
+        color: white;
+        font-size: .7rem;
+    }
+    #announce > p {
+        margin-bottom: 0.2rem !important;
+    }
+    .dropdown-item {
+        padding: .5rem .5rem .5rem 0;
+    }
+    .dropdown-item:hover, .dropdown-item:focus {
+        background-color: #F7F9FB !important;
+    }
+    .dropdown-item:active {
+        background-color: #F7F9FB !important;
+        color: unset !important;
+    }
+    .dropdown-menu::-webkit-scrollbar {
+      width: 3px;
+    }
+    .dropdown-menu::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+    .dropdown-menu::-webkit-scrollbar-thumb {
+      background-color: #F07489;
+    }
+    .dropdown-menu::-webkit-scrollbar-button {
+      width: 0;
+      height: 0;
+    }
+    .dropdown-menu li:not(:last-child) {
+        border-bottom: 2px #F07489 solid;
+    }
+</style>
+

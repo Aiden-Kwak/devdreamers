@@ -1,0 +1,53 @@
+{% load static %}
+<div class="container d-flex flex-column shadow px-4 py-3 mb-5 mx-auto" style="border-radius: 1rem;">
+    <div class="filter-container d-flex align-items-center p-2">
+        <select id="category-filter" multiple="multiple" style="display:none;">
+                    <option>서버/백엔드</option>
+                    <option>프론트엔드</option>
+                    <option>DevOps</option>
+                    <option>안드로이드 앱</option>
+                    <option>아이폰 앱</option>
+                    <option>UI/UX</option>
+                    <option>데이터 엔지니어</option>
+                    <option>머신러닝/AI</option>
+                    <option>게임 개발</option>
+                    <option>AR/VR</option>
+                    <option>그래픽 디자인</option>
+                    <option>임베디드</option>
+                    <option>IoT</option>
+                    <option>보안</option>
+                    <option>블록체인</option>
+                    <option>알고리즘</option>
+                    <option>기획/PM</option>
+                    <option>마케팅</option>
+                    <option>기타</option>
+        </select>
+        <select id="type-filter" multiple="multiple" style="display:none;">
+            <option>스터디</option>
+            <option>프로젝트</option>
+            <option>대회/공모전</option>
+            <option>동아리</option>
+            <option>스타트업/창업</option>
+        </select>
+        <input type="search" id="title-filter" placeholder="팀 이름 검색"
+                class="form-control shadow-none" style="padding:.5rem;">
+        <input type="search" id="nickname-filter" placeholder="닉네임 검색"
+                class="form-control shadow-none" style="padding:.5rem;">
+        {% if user.is_authenticated %}
+        <a href="{% url 'team:create' %}">
+            <button type="button" class="text-white border-0">
+                모집글작성
+            </button>
+        </a>
+        {% endif %}
+    </div>
+    <div class="filter-tags d-flex align-items-center" style="flex-wrap: wrap;">
+        <div class="category-filter-tag">
+            <ul class="tags-container"></ul>
+        </div>
+        <div class="type-filter-tag">
+            <ul class="tags-container"></ul>
+        </div>
+        <span id="initBtn" class="ms-2" style="font-size: 1rem; color: #F07489; display:none;">조건 초기화</span>
+    </div>
+</div>

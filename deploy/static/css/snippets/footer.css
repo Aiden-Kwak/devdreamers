@@ -1,0 +1,23 @@
+.footer-area{
+    text-align: center;
+    background-color: gray;
+    font-size: 1rem;
+}
+
+.footer-area * {
+    color : white;
+}
+
+.footer-area > .info > p{
+    font-size: 1rem;
+    padding: 10px 0;
+}
+
+#footer-button {
+    font-size: .9rem;
+    margin-left: 1rem;
+}
+
+#footer-button a {
+    margin-right: 1rem;
+}

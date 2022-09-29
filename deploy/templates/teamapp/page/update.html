@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/teamapp/create-update.css' %}">
+{% endblock %}
+{% block script %}
+    <script src="{% static 'js/teamapp/team_validation.js' %}"></script>
+    <script src="{% static 'js/teamapp/teamcolor.js' %}"></script>
+{% endblock %}
+{% block cdnfile %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/nano.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
+{% endblock %}
+{% block content %}
+<div class="box" style="position: absolute;
+top: 10px; width: 100%; height: 800px; background: {{ target_team.team_color }}; z-index: -100;">
+</div>
+
+<form method="post" class="container p-5 shadow my-5 bg-white"
+      action="{% url 'team:update' pk=target_team.pk %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div>
+        <h1><strong>글 수정하기</strong></h1>
+        <p class="mt-3 mb-2" style="color: #737373;">지금 <a style="color: #F07489;">꿈꾸는 개발자들</a>에서 새로운 팀을 만들어보세요!</p>
+        <p class="mb-4" style="font-size: 1rem; color:#C4C4C4"><span style="color:red">*</span> 은 필수적으로 입력해야 합니다!</p>
+        <div>
+            <div class="mt-3">
+                <label><span style="color:red">*</span> 모집글제목 (최대 30글자)</label>
+                <input type="text" class="form-control w-100" name="title" maxlength="30"
+                value="{{ form.title.value|default_if_none:'' }}" placeholder="ex) 꿈꾸는 개발자들" autocomplete="off" style="box-shadow: none;" required>
+            </div>
+            <div class="mt-3">
+                <label><span style="color:red">*</span> 한줄 소개 (최대 45글자)</label>
+                <input type="text" class="form-control" name="description" maxlength="45"
+                value="{{ form.description.value|default_if_none:'' }}" placeholder="ex) 대학생 팀빌딩 플랫폼" autocomplete="off" style="box-shadow: none;" required>
+            </div>
+
+            <div class="my-5 upload-team-image">
+                <div>
+                    <h3>사진 등록</h3>
+                    <div class="m-0 upload-team-detail" style="color: #737373;">
+                        <p>팀 찾기 카드에 표시할</p>
+                        <p>사진을 등록하세요!</p>
+                        <p>(비율 2.5:1 권장)</p>
+                    </div>
+                    <div class="mt-3" id="upload-btn">
+                        <div style="display:none;">
+                            <input type="file" class="input-image" name="image" accept="image/*"/>
+                        </div>
+                        <button type="button" class="upload-image w-100 px-2 py-1"
+                                style="background: #F07489;border-radius: .5rem;border:none;color:white; width: 5rem;">
+                            업로드
+                        </button>
+                    </div>
+                </div>
+                <div class="preview-image shadow" style="background-image: url({{ target_team.image.url }});">
+                </div>
+                <div class="mt-3" id="upload-btn2">
+                    <button type="button" class="upload-image w-100 px-2 py-1"
+                            style="background: #F07489;border-radius: .5rem;border:none;color:white; width: 5rem;" >
+                        업로드
+                    </button>
+                </div>
+            </div>
+
+            <div class="input-container mt-3">
+                <p class="me-4"><span style="color:red">*</span> 팀 유형</p>
+                <select class="nice-select shadow-none" name="type" id="type" required>
+                {% for key, value in form.type.field.choices %}
+                    {% if value == '' %}
+                        <option value="{{ key }}">선택하기</option>
+                    {% else %}
+                        <option value="{{ key }}" {% if key == target_team.type %}selected{% endif %}>{{ value }}</option>
+                    {% endif %}
+                {% endfor %}
+                </select>
+            </div>
+            <div class="input-container my-3">
+                <p class="me-4">팀 컬러</p>
+                <div class="color-picker" style="width: .5rem;"></div>
+                <input type="hidden" name="team_color" id="team_color"
+                        value="{{ form.team_color.value|default_if_none:'' }}">
+            </div>
+
+            <div class="input-container my-3">
+                <p class="me-4"><span style="color:red">*</span> 공개 범위</p>
+                <select class="nice-select shadow-none" name="to_open" required>
+                    <option value="True" {% if target_team.to_open %}selected{% endif %}>모든 학교에 공개하기</option>
+                    <option value="False" {% if not target_team.to_open %}selected{% endif %}>{{ user.get_school_display }}에만 공개하기</option>
+                </select>
+            </div>
+
+            <div class="mt-3">
+                <p><span style="color:red">*</span> 팀 설명</p>
+                {{ form.content }}
+            </div>
+            <div>
+                <p class="mb-2 mt-2"><span style="color:red">*</span> 모집 분야 (최대 3개)</p>
+                <div class="checkbox-container">
+                    {% for value, text in form.category.field.choices %}
+                      <div class="col-sm-3 d-flex align-items-center my-2">
+                        <input id="id_providers_{{ forloop.counter0 }}" name="{{ form.category.name }}" type="checkbox" value="{{ value }}"{% if value in target_team.category %} checked="checked"{% endif %}
+                         class="d-flex align-items-center">
+                        <label class="mx-3">{{ text }}</label>
+                      </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="input-container mt-4">
+                <p class="me-3"><span style="color:red">*</span> 모집 마감</p>
+                <input type="datetime-local" class="form-control shadow-none" name="deadline" style="width: 300px;" value="{{ form.deadline.value| date:'c' }}" required>
+            </div>
+            <div class="mt-4">
+                <p class="mb-2"><span style="color:red">*</span> 연락처</p>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" style="background:white;">
+                        <i class="fas fa-comment-dots"></i>
+                    </span>
+                    <input type="text" class="shadow-none form-control" name="contact" id="contact"
+                           value="{{ form.contact.value | default_if_none:'' }}" maxlength="1024"
+                           placeholder="오픈카톡,Notion 링크 등 연락받을 연락처를 등록하세요!" required>
+                </div>
+            </div>
+
+        </div>
+        <div class="d-flex justify-content-evenly mt-5">
+            <button id="editBtn" class="w-25">수정하기</button>
+            <button id="cancelBtn" type="button" class="w-25" onclick="window.history.back();">취소</button>
+        </div>
+    </div>
+</form>
+{% endblock %}

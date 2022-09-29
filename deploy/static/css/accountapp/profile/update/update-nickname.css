@@ -1,0 +1,27 @@
+.nickname-container {
+    display: grid;
+    grid-template-columns: 13rem 1fr;
+}
+.nickname-container > div {
+    font-size: 1.5rem;
+}
+
+@media screen and (max-width: 991px) {
+    #container {
+        width: 100% !important;
+    }
+    .nickname-container {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+    }
+    .nickname {
+        margin-bottom: .5rem;
+    }
+    .lineshow {
+        display: block !important;
+    }
+    #nextBtn {
+        margin-top: .5rem;
+    }
+}

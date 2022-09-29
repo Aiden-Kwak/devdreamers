@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="d-flex justify-content-center mb-3">
+    <div align="center" class="my-5 shadow-lg" style="width: 650px; border-radius: 2rem; padding: 3rem;">
+        {% if nickname %}
+            <h4 class="m-3 pb-2">닉네임 변경이 완료되었습니다</h4>
+            <h4 class="m-1">다시 반갑습니다!</h4>
+            <h4 class="m-0 pt-3"><span style="color: gray">{{ nickname }}</span> 님!</h4>
+            <div align="center" class="mt-4">
+                <a href="{% url 'account:index' %}">
+                    <div class="d-flex justify-content-center" style="flex-direction: column; background-color: #F07489; color: white; width: 12rem; height: 2.5rem;">메인으로</div>
+                </a>
+            </div>
+        {% else %}
+            <h4 class="m-3 pb-2">비밀번호 변경이 완료되었습니다</h4>
+            <p style="color: #737373">다시 로그인 해주십시오</p>
+            <div align="center" class="mt-5">
+                <a href="{% url 'account:index' %}">
+                    <div class="text-center d-flex justify-content-center" style="flex-direction: column; background-color: #F07489; color: white; width: 12rem; height: 2.5rem;">로그인으로</div>
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

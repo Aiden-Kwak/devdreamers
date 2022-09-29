@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/contestapp/card-list.css'%}">
+    <link rel="stylesheet" href="{% static 'css/sumoselect.css' %}">
+    <link rel="stylesheet" href="{% static 'css/contestapp/snippets/filter.css' %}">
+    <link rel="stylesheet" href="{% static 'css/toggle-switch.css' %}">
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'js/jquery.sumoselect.js' %}"></script>
+    <script src="{% static 'js/contestapp/contest-list-filter.js' %}"></script>
+    <script src="{% static 'js/posterview-mode.js' %}"></script>
+{% endblock%}
+
+{% block content %}
+
+{% include 'contestapp/snippets/poster-slider.html' %}
+
+{% include 'contestapp/snippets/filter.html' %}
+
+<div class="container">
+    <div class="d-flex justify-content-end view-mode" style="margin: 2rem 1rem 2rem 0">
+        <div class="fs-6" style="line-height: 25px; margin-right: .5rem">마감일 ▲</div>
+        <div class="vc-toggle-container">
+            <label class="vc-switch">
+                <input type="checkbox" class="vc-switch-input align-change"/>
+                <span class="vc-switch-label" data-on="" data-off=""></span>
+                <span class="vc-handle"></span>
+            </label>
+        </div>
+        <div class="fs-6" style="line-height: 25px; margin: 0 2rem 0 .5rem">등록일 ▲</div>
+        <div class="fs-6" style="line-height: 25px; margin-right: .5rem">남은 마감일</div>
+        <div class="vc-toggle-container">
+            <label class="vc-switch">
+                <input type="checkbox" class="vc-switch-input deadline-change" onchange="deadline_fc()" checked/>
+                <span class="vc-switch-label" data-on="on" data-off="off"></span>
+                <span class="vc-handle"></span>
+            </label>
+        </div>
+        <div class="fs-6" style="line-height: 25px; margin: 0 .5rem 0 2rem">포스터만 보기</div>
+        <div class="vc-toggle-container">
+            <label class="vc-switch">
+                <input type="checkbox" class="vc-switch-input view-change" onchange="view_fc()" />
+                <span class="vc-switch-label" data-on="on" data-off="off"></span>
+                <span class="vc-handle"></span>
+            </label>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid px-0">
+    {% if contest_list %}
+            <div class="card-container-contest container-md p-0 mb-5">
+                {% include 'contestapp/snippets/contest_card.html' with contest_list=contest_list %}
+            </div>
+        <p class="my-4 text-center"><button id="loadMore" class="btn btn-sm shadow-none" style="background-color: #4B4B68; color: white">더 불러오기</button></p>
+    {% else %}
+        <div class="container-md p-0" style="margin-bottom: 100px;">
+            <h3 class="text-center">아직 등록된 대회 및 공모전이 없습니다.</h3>
+        </div>
+    {% endif %}
+</div>
+
+<script>
+    // 포스터 호버 애니메이션
+    const slide = document.querySelectorAll(".slide");
+
+    slide.forEach((aTag, index) => {
+        let box = aTag.querySelector('div');
+        let detail = box.querySelector('div');
+
+        box.addEventListener('mouseover', function() {
+            detail.style.animation = "fade-in 0.5s";
+            detail.style.animationFillMode = "forwards";
+        });
+        box.addEventListener('mouseout', function() {
+            detail.style.animation = "fade-out 0.5s";
+            detail.style.animationFillMode = "forwards";
+        });
+    })
+
+    // 보기 방식 변경
+    const view_btn = document.querySelector('.view-change');
+    let contest_card = document.querySelectorAll('.contest-card');
+    let card_container_contest = document.querySelectorAll('.card-container-contest');
+
+    function view_fc() {
+        if(window.innerWidth > 992){
+            if(view_btn.checked) {
+                poster_mode()
+            } else {
+                default_mode()
+            }
+        } else {
+            default_mode()
+        }
+    }
+
+    window.addEventListener('resize', () => {
+        view_fc()
+    });
+
+    // 남은 마감일 보기
+    const deadline_btn = document.querySelector(".deadline-change")
+
+    function deadline_fc() {
+        contest_card = document.querySelectorAll('.contest-card');
+        Array.from(document.querySelectorAll(".contest-deadline-box")).forEach((item) => {
+            item.remove()
+        })
+        if(deadline_btn.checked) {
+            for(let i = 0; i < Array.from(contest_card).length; i++) {
+                let year = contest_card[i].querySelector(".contest-detail").querySelector(".hidden-text").innerText.split(' ')[0]
+                let month = contest_card[i].querySelector(".contest-detail").querySelector("h6").innerText.split(' ')[4].split('월')[0]
+                let day = contest_card[i].querySelector(".contest-detail").querySelector("h6").innerText.split(' ')[5].split('일')[0]
+                let date = new Date(year, month - 1, day)
+
+                const deadline_block = document.createElement("div")
+                deadline_block.classList += "contest-deadline-box"
+                if(Math.floor((date - Date.now())/(1000*60*60*24)) == 0) {
+                    deadline_block.innerText = `D - Day`
+                } else if(Math.floor((date - Date.now())/(1000*60*60*24)) < 0) {
+                    deadline_block.innerText = `마감`
+                } else {
+                    deadline_block.innerText = `D - ${Math.floor((date - Date.now())/(1000*60*60*24))}`
+                }
+                contest_card[i].appendChild(deadline_block)
+            }
+        }
+    }
+
+    window.onload = () => {
+        view_fc()
+        deadline_fc()
+    }
+
+</script>
+{% endblock %}

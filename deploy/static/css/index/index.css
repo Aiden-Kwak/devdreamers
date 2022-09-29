@@ -1,0 +1,28 @@
+.index-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.index-container > img {
+    margin-right: 60px;
+    width: 500px;
+}
+
+@media screen and (max-width: 991px) {
+    body {
+        font-size: 1rem;
+    }
+    .index-container {
+        flex-direction: column-reverse;
+    }
+    .index-container > img {
+        display:none;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    body {
+        font-size: 1.1rem;
+    }
+}

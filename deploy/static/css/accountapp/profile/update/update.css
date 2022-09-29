@@ -1,0 +1,143 @@
+label, span {
+    font-size: 1.05rem;
+}
+
+.extra-form {
+    width: 500px;
+    border-radius: 1rem;
+    margin-left: 1rem;
+}
+
+.extra-form-group {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.form-container {
+    width: 680px;
+}
+
+.radio-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 10px;
+    justify-items: center;
+}
+
+.form-input {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+    align-items: center;
+}
+
+
+input[name="type"] {
+    display: none;
+}
+input[name="type"] + label {
+    width: 100%;
+    border: 1px solid #ced4da;
+    border-radius: .5rem;
+    color:grey;
+    cursor: pointer;
+}
+input[name='type']:checked + label {
+    width: 100%;
+    border: 1px solid #F07489;
+    border-radius: .5rem;
+    color: #F07489;
+}
+.select-type {
+      flex: 1 1 0;
+      text-align :center;
+}
+.select-type-container {
+    display: flex;
+    gap : 10px;
+    justify-content : space-evenly;
+}
+.responsive-form > input{
+    max-width: 30%;
+}
+.grid-form {
+    display: grid;
+    column-gap: 5px;
+    grid-template-columns: 2fr 1fr;
+}
+
+@media screen and (max-width: 1199px) {
+    .profile-info {
+        flex-direction: column;
+        align-items: center;
+    }
+    .base-info {
+        width: 100% !important;
+        margin-bottom: 2rem;
+    }
+    .detail-info {
+        margin: 0 !important;
+        width: 100% !important;
+    }
+    .form-container{
+        width: 100%;
+    }
+
+    .add-form, .del-form{
+        margin-bottom: 1rem;
+    }
+
+    .extra-form-group {
+        flex-direction: column;
+        margin-top: 1rem;
+    }
+
+    .extra-form {
+        width: 100%;
+        margin: 0;
+    }
+
+    .radio-list {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-input {
+        display: flex;
+        flex-direction: column;
+        align-items:flex-start;
+        justify-content: flex-start;
+    }
+}
+
+@media screen and (max-width: 575px) {
+    .responsive-form {
+        flex-direction: column;
+    }
+    .responsive-form > input {
+        max-width: 100%;
+    }
+    label, span, .form-control, .tag-input, small {
+        font-size: .85rem;
+    }
+    .form-input > input {
+        font-size: .75rem;
+    }
+
+    .education-detail > div > h5, .profile-menu{
+        font-size: .9rem;
+    }
+
+    #profile-Btn {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    div > h4 {
+        font-size: 1.1rem;
+    }
+
+}

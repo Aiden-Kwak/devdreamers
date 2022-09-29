@@ -1,0 +1,124 @@
+{% load static %}
+{% load custom_tags %}
+
+<nav class="container-fluid d-flex justify-content-between align-items-center px-5">
+    <nav class="navbar navbar-expand-lg navbar-light hamburger-show p-0 align-items-center">
+        <div class="container p-0">
+            <button class="btn navbar-toggler border-3 px-2 mt-1 hamburger-button shadow-none" type="button" data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                <i class="fas fa-bars fa-lg"></i>
+            </button>
+            <div class="offcanvas offcanvas-start-lg " tabindex="-1" id="offcanvasExample"
+            aria-labelledby="offcanvasExampleLabel" style="background: #f7f9fb;"
+            >
+            <div class="offcanvas-header d-flex flex-column align-items-center  mt-4">
+                <div class="d-flex-column text-center offcanvas-title text-white fs-3" id="offcanvasExampleLabel" style="white-space: nowrap">
+                    <a href="{% url 'account:index' %}" class="side-header">
+                        <img style="height: 70px; width: 70px" src="{% static 'img/logo.svg' %}">
+                    </a>
+                    <h3 class="mt-4" style="font-size: 1.7rem;color:#F07489;">꿈꾸는 개발자들</h3>
+                </div>
+                <a href="javascript:void(0) "
+                class="text-reset p-0"
+                data-bs-dismiss="offcanvas"
+                aria-label="close"
+                >
+                </a>
+            </div>
+                <div class="offcanvas-body mt-4">
+                    <ul class="navbar-nav ms-4">
+                        <li class="nav-item">
+                            <a class="nav-link active fs-5" aria-current="page" href="{% url 'team:list' %}" style="{% if '/teams/' in request.path %}color:#F07489;{% endif %}">팀찾기</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active fs-5" aria-current="page" href="{% url 'account:list' %}" style="{% if '/members/' in request.path %}color:#F07489;{% endif %}">팀원찾기</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active fs-5" aria-current="page" href="{% url 'contest:list' %}" style="{% if '/contest/' in request.path %}color:#F07489;{% endif %}">대회 및 공모전</a>
+                        </li>
+                        {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link active fs-5" aria-current="page" href="{% url 'account:detail' slug=request.user.profile.nickname %}" style="{% if '/member/detail/'|add:request.user.profile.nickname in request.path %}color:#F07489;{% endif %}">내 프로필</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active fs-5" aria-current="page" href="{% url 'account:setting' %}" style="{% if '/settings/' in request.path %}color:#F07489;{% endif %}">계정설정</a>
+                        </li>
+                         <li class="nav-item">
+                            <a class="nav-link active fs-5" aria-current="page" href="{% url 'account:logout' %}">로그아웃</a>
+                        </li>
+                        {% else %}
+                         <li class="nav-item">
+                            <a class="nav-link active fs-5" aria-current="page" href="{% url 'account:signup' %}">회원가입</a>
+                        </li>
+                         <li class="nav-item">
+                            <a class="nav-link active fs-5" aria-current="page" href="{% url 'account:login' %}?next={{ request.path }}">로그인</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="header-logo">
+
+        <a href="{% url 'account:index' %}" class="d-flex align-items-center" style="white-space: nowrap">
+        <img src="{% static 'img/logo.svg' %}" alt="logo">
+        <div>
+            {% if user.is_authenticated %}
+            <span style="font-size: .5rem;">{{ request.user.get_school_display }}의</span>
+            {% else %}
+            <span style="font-size: .5rem;">지나가던</span>
+            {% endif %}
+            <h5 class="m-0">꿈꾸는개발자들</h5>
+        </div>
+        </a>
+    </div>
+    <div class="header-content">
+        <a href="{% url 'team:list' %}"
+        style="{% if '/teams/' in request.path %}color:#F07489;border-bottom:2px solid;{% endif %}">팀찾기</a>
+        <a href="{% url 'account:list' %}"
+            style="{% if '/members/' in request.path %}color:#F07489;border-bottom:2px solid;{% endif %}">팀원찾기</a>
+    <!--    대회 및 공모전 (알림포함)  contest_notifications: custon_tag.py & contest_notify.html 참고  -->
+        {% if user.is_authenticated %}
+        {% contest_notifications %}
+        {% else %}
+        <a href="{% url 'contest:list' %}"
+            style="{% if '/contest/' in request.path %}color:#F07489;border-bottom:2px solid;{% endif %}">
+            대회 및 공모전
+        </a>
+        {% endif %}
+    <!--    END 대회 및 공모전 (알림포함)    -->
+        {% if user.is_authenticated %}
+        <a href="{% url 'account:detail' slug=request.user.profile.nickname %}" style="{% if '/member/detail/'|add:request.user.profile.nickname in request.path %}color:#F07489;border-bottom:2px solid;{% endif %}">
+            {% comment %} <i class="fas fa-user-circle"></i> {% endcomment %}
+            프로필
+        </a>
+        <a href="{% url 'account:setting' %}" style="{% if '/settings/' in request.path %}color:#F07489;border-bottom:2px solid;{% endif %}">
+            {% comment %} <i class="fas fa-cog"></i> {% endcomment %}
+            계정설정
+        </a>
+        <a href="{% url 'account:logout' %}">
+            {% comment %} <i class="fas fa-lock-open"></i> {% endcomment %}
+            로그아웃
+        </a>
+    <!--    NOTIFICATION    -->
+        {% show_notifications %}
+    <!--  END - NOTIFICATION    -->
+
+        {% else %}
+        <a href="{% url 'account:signup' %}">
+            {% comment %} <i class="fas fa-user-plus"></i> {% endcomment %}
+            회원가입
+        </a>
+        <a href="{% url 'account:login' %}?next={{ request.path }}">
+            {% comment %} <i class="fas fa-lock"></i> {% endcomment %}
+            로그인
+        </a>
+        {% endif %}
+    </div>
+    
+</nav>
+
+

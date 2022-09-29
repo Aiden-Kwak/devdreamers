@@ -1,0 +1,207 @@
+.lang-detail {
+    border-radius: 15px;
+    margin-bottom: 1rem;
+    background-color: #F7F9FB;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border: none;
+    display: grid;
+    grid-template-columns: 3fr 8fr;
+}
+.certificate-detail {
+    border-radius: 15px;
+    margin-bottom: 1rem;
+    background-color: #F7F9FB;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.certificate-content {
+    display: grid;
+    grid-template-columns: 3fr 10fr;
+}
+.profile-content {
+    display: grid;
+    grid-template-columns: 5rem 1fr;
+}
+.accordion {border-radius: 15px;}
+.accordion-item {
+    border-radius: 15px;
+    margin-bottom: 1rem;
+    background-color: #C4C4C4;
+    border: none;
+}
+.accordion-button {
+    border-radius: 15px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.accordion-button.collapsed {background-color: #F7F9FB;}
+.accordion-button:not(.collapsed) {
+    color: inherit;
+    background-color: #F7F9FB;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.accordion-body {
+    border-radius: 15px;
+}
+.tags-container {
+    list-style: none;
+    padding: 0;
+    margin-top: .3rem;
+    display: flex;
+    flex-wrap: wrap;
+}
+.tag-item-1 {
+    margin: 0.3rem .3rem 0 .3rem;
+    padding: 0.3rem;
+    font-size: 1rem;
+    color: black;
+    background-color: #C4C4C4;
+    border-radius: 5px;
+}
+.tag-item-2 {
+    margin: 0.3rem .3rem 0 .3rem;
+    padding: 0.3rem;
+    font-size: 1rem;
+    color: white;
+    background-color: #F07489;
+    border-radius: 5px;
+}
+
+.scrollbar::-webkit-scrollbar {
+    background-color: #FFFFFF;
+    height: 8px;
+
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+    background-color: #F07489;
+}
+
+.scrollbar::-webkit-scrollbar-button {
+    display: none;
+}
+
+.scrollbar::-webkit-scrollbar-track-piece:end {
+    margin-right: 10rem;
+}
+
+.scrollbar::-webkit-scrollbar-track-piece:start {
+    margin-left: 10rem;
+}
+
+.scrollbar a:last-child > div {
+    margin-right: 3rem;
+}
+
+.scrollbar {
+    overflow-x: auto;
+}
+
+.self-intro, .self_intro_edit {
+    width: 500px;
+    margin: 0 auto;
+}
+
+.self_intro_btn {
+    outline: none;
+    border: none;
+    background-color: transparent;
+    color: #F07489;
+    font-size: 1rem;
+    margin-top: .5rem;
+}
+
+.self_intro_edit {
+    flex-direction: column;
+}
+
+.self_intro_edit > textarea {
+    padding: 1rem;
+    width: 100%;
+    height: 150px;
+    color: #757575;
+    text-align: center;
+    outline: none;
+    border: none;
+    resize: none;
+    border: #F07489 2px solid;
+    border-radius: 15px;
+}
+
+.self_intro_edit > textarea::-webkit-scrollbar {
+    display: none;
+}
+
+.self_intro_edit > button {
+    outline: none;
+    border: none;
+    background-color: transparent;
+    color: #F07489;
+}
+
+@media screen and (max-width: 991px) {
+    .profile-info {
+        flex-direction: column;
+        justify-content: center !important;
+    }
+    .base-info {
+        width: 100% !important;
+        margin-bottom: 2rem;
+    }
+    .detail-info {
+        margin: 0 !important;
+        width: 100% !important;
+    }
+    .profile-info span, .profile-info p, .profile-info h5, .profile-info .tag-item {
+        font-size: 1rem;
+    }
+    h4 {
+        font-size: 1.2rem;
+    }
+    #nextline {display: block;}
+    .lang-detail {
+        display: block;
+        text-align: center;
+    }
+    #nextline { display: block !important;}
+    #langname {margin: 0 !important;}
+    #certificatename, #certificatedate {display: none;}
+    .certificate-content {
+        display: block;
+        text-align: center;
+    }
+    #spec-detail {
+        display: block !important;
+        text-align: center;
+    }
+    #spec-detail img {
+        display: none;
+    }
+    .self-intro, .self_intro_edit{
+        width: 70%;
+        font-size: .9rem;
+    }
+}
+
+@media screen and (max-width: 575px) {
+    .profile-content {
+        display: flex;
+        flex-direction: column;
+    }
+    .profile-content span {
+        margin-top: 5px;
+    }
+}
+
+@media screen and (max-width: 575px) {
+
+    #profile-menu {
+        font-size: .9rem;
+    }
+
+    div > h4 {
+        font-size: 1.1rem;
+    }
+
+    small {
+        font-size: .85rem;
+    }
+}

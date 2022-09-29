@@ -1,0 +1,16 @@
+<html>
+<body>
+
+    <h3>꿈꾸는 개발자들 회원가입 인증 메일</h3>
+
+    <p style="margin-bottom:10px;">아래 링크를 클릭하면 회원가입 인증이 완료됩니다.</p>
+
+    회원가입 링크 : <a href="http://{{ domain }}{% url 'account:activate' uid64=uid token=token %}">http://{{ domain }}{% url 'account:activate' uid64=uid token=token %}</a>
+
+    <p>이 메일은 발신용 이메일입니다. 문의사항이 있을 경우 to.devdreamer@gmail.com으로 보내주세요!</p>
+
+</body>
+</html>
+
+
+
