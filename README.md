@@ -46,9 +46,9 @@ https://devdreamers.kr/
 ### 🔥 Crew (Since 2021.02)
 - 팀장 
   - <strike>송영욱 (기획, 디자인, 풀스택 개발) [@Just4Study](https://github.com/Just4Study)</strike> ( 2021.02 ~ 2021.08 )
-  - 권민성 (디자인, 프론트엔드 개발) [@kweonminsung](https://github.com/kweonminsung) ( 2021.08 ~ )
+  - 권민성 (디자인, 프론트엔드 개발) [@kweonminsung](https://github.com/kweonminsung) ( 2021.08 ~ 2021.11 )
 - 팀원
-  - 곽병혁 (백엔드 개발) [@Aiden-Kwak](https://github.com/Aiden-Kwak)
+  - 곽병혁 (백엔드 개발) [@Aiden-Kwak](https://github.com/Aiden-Kwak) ( 2021.02 ~ 2021.11 )
 
 <br/>
 
